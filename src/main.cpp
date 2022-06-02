@@ -1,9 +1,11 @@
 #include <Arduino.h>
+#include <FastLED.h>
+#include "leds.h" 
 
 void setup() {
-  // put your setup code here, to run once:
+    ledsSetup();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+    ledsLoop();
 }
