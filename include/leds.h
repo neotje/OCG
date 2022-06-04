@@ -3,11 +3,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "types.h"
-
 const uint8_t LEDSTRIP1_PIN = 12;
 
-const uint16_t NUM_LEDS = 100;
+const uint16_t NUM_LEDS = 300;
 CRGB leds[NUM_LEDS];
 
 void ledsSetup() {
