@@ -1,55 +1,48 @@
 #pragma once
 
 #include <Arduino.h>
+#include <Encoder.h>
 #include "types.h"
 
-const byte ROTARY_CLK_PIN = 11;
-const byte ROTARY_DT_PIN = 10;
+const byte ROTARY_CLK_PIN = 2;
+const byte ROTARY_DT_PIN = 3;
 
-byte previousStateClk;
-byte currentStateClk;
+Encoder encoder(ROTARY_CLK_PIN, ROTARY_DT_PIN);
 
-RotaryDirection currentDirection = None;
-int32_t position = 0;
+RotaryDirection currentDirection;
 
-byte readClk() {
-    return digitalRead(ROTARY_CLK_PIN);
-}
-
-byte readDt() {
-    return digitalRead(ROTARY_DT_PIN);
-}
+int32_t lastPosition;
+uint32_t deltaPosition;
 
 RotaryDirection getRotaryDirection() {
-    return currentDirection;
+    if (deltaPosition > 0) {
+        return Clockwise;
+    } else if (deltaPosition < 0) {
+        return CounterClockwise;
+    } else {
+        return None;
+    }
 }
 
 int32_t getRotaryPosition() {
-    return position;
+    return encoder.read();
+}
+
+int32_t getRotaryDelta() {
+    return deltaPosition;
 }
 
 void rotarySetup() {
-    pinMode(ROTARY_CLK_PIN, INPUT);
-    pinMode(ROTARY_DT_PIN, INPUT);
+    encoder.write(0);
+    
+    lastPosition = getRotaryPosition();
+    deltaPosition = getRotaryPosition() - lastPosition;
 
-    previousStateClk = readClk();
+    currentDirection = RotaryDirection::None;
 }
 
 
 void rotaryLoop() {
-    currentStateClk = readClk();
-
-    if (currentStateClk != previousStateClk) {
-        if (readDt() != currentStateClk) {
-            currentDirection = CounterClockwise;
-            position--;
-        } else {
-            currentDirection = Clockwise;
-            position++;
-        }
-    } else {
-        currentDirection = None;
-    }
-
-    previousStateClk = currentStateClk;
+    deltaPosition = getRotaryPosition() - lastPosition;
+    lastPosition = getRotaryPosition();
 }
