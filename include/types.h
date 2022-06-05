@@ -19,3 +19,13 @@ enum RotaryDirection {
     Clockwise,
     CounterClockwise
 };
+
+struct Button {
+    byte pin;
+
+    unsigned long pressStart;
+    
+    bool lastState;
+    bool isDown;
+    bool isPressed;
+};
