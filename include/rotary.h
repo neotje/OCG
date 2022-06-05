@@ -1,7 +1,10 @@
 #pragma once
 
 #include <Arduino.h>
+
+#define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
+
 #include "types.h"
 
 const byte ROTARY_CLK_PIN = 2;
