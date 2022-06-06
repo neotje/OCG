@@ -8,7 +8,6 @@ DFRobot_RGBLCD1602 lcd(16, 2);
 
 void lcdSetup() {
     lcd.init();
-    lcd.setColorWhite();
 }
 
 void lcdSetColor(const CRGB &color) {
