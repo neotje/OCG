@@ -11,6 +11,14 @@ class StateMachine {
             currentState = NULL;
         };
 
+        /**
+         * @brief Sets the current state of the state machine.
+         * 
+         * calls onEntry() on the new state
+         * calls onExit() on the old state
+         * 
+         * @param state state to set to
+         */
         void setState(State* state) {
             if (currentState != NULL) {
                 currentState->onExit();

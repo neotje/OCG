@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Arduino.h>
 #include "Condition.h"
 
 class State {
@@ -11,6 +12,11 @@ class State {
     public:
         State() {};
 
+        /**
+         * @brief Adds a condition to the state.
+         * 
+         * @param condition condition to add
+         */
         void addCondition(Condition* condition) {
             conditions = (Condition**)realloc(conditions, sizeof(Condition*) * (conditionsCount + 1));
             conditions[conditionsCount] = condition;
