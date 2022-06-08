@@ -17,6 +17,14 @@ int8_t selectedEntry = 0;
 int menuChangeTimeout = 200;
 unsigned long lastMenuChange= 0;
 
+int8_t getMenuSelectedEntry() {
+    return selectedEntry;
+}
+
+const char *getMenuSelectedEntryName() {
+    return MENU_ENTRIES[selectedEntry];
+}
+
 void menuDraw() {
     getLcd()->clear();
 
