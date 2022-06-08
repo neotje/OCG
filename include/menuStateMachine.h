@@ -7,6 +7,7 @@
 #include "buttons.h"
 #include "lcd.h"
 #include "menu.h"
+#include "brightnessSelector.h"
 
 StateMachine menuStateMachine;
 
@@ -28,8 +29,10 @@ void EffectsState() {
 
 void BrightnessState() {
     if (menuStateMachine.executeOnce) {
-        getLcd()->clear();
+        brightnessSelectorSetup();
     }
+
+    brightnessSelectorLoop();
 }
 
 void ConfigState() {
@@ -61,6 +64,10 @@ bool toBrowsingTransition() {
     return isButtonLongPressed(0);
 }
 
+bool brightnessToBrowsingTransition() {
+    return isButtonPressed(0);
+}
+
 
 void menuStateMachineSetup() {
     browsingState->addTransition(&browsingToEffectsTransition, effectsState);
@@ -68,7 +75,7 @@ void menuStateMachineSetup() {
     browsingState->addTransition(&browsingToConfigTransition, configState);
 
     effectsState->addTransition(&toBrowsingTransition, browsingState);
-    brightnessState->addTransition(&toBrowsingTransition, browsingState);
+    brightnessState->addTransition(&brightnessToBrowsingTransition, browsingState);
     configState->addTransition(&toBrowsingTransition, browsingState);
 }
 

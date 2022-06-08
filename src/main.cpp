@@ -18,6 +18,8 @@ void setup() {
     rotarySetup();
     buttonsSetup();
 
+    ledsFill(CRGB::White);
+
     menuStateMachineSetup();
 }
 

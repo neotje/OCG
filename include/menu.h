@@ -14,7 +14,7 @@ const char *MENU_ENTRIES[] = {
 
 int8_t selectedEntry = 0;
 
-int menuChangeTimeout = 200;
+const int MENU_CHANGE_TIMEOUT = 200;
 unsigned long lastMenuChange= 0;
 
 int8_t getMenuSelectedEntry() {
@@ -46,11 +46,8 @@ void menuSetup() {
 }
 
 void menuLoop() {
-    if (getRotaryDirection() != None && millis() - lastMenuChange > menuChangeTimeout) {
+    if (getRotaryDirection() != None && millis() - lastMenuChange > MENU_CHANGE_TIMEOUT) {
         lastMenuChange = millis();
-
-        Serial.print("change: ");
-        Serial.println(getRotaryDelta());
 
         if (getRotaryDelta() > 0) {
             selectedEntry++;
@@ -62,5 +59,4 @@ void menuLoop() {
 
         menuDraw();
     }
-    
 }
