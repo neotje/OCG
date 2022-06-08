@@ -29,3 +29,7 @@ struct Button {
     bool isDown;
     bool isPressed;
 };
+
+struct Config {
+    uint8_t brightness;
+};

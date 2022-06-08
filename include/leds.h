@@ -3,6 +3,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
+#include "config.h"
+
 const uint8_t LEDSTRIP1_PIN = 9;
 
 const uint16_t NUM_LEDS = 10;
@@ -10,6 +12,8 @@ CRGB leds[NUM_LEDS];
 
 void ledsSetup() {
     FastLED.addLeds<WS2812B, LEDSTRIP1_PIN, RGB>(leds, NUM_LEDS);
+
+    FastLED.setBrightness(getConfig()->brightness);
 }
 
 /**

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
+#include "config.h"
 #include "leds.h" 
 #include "ledsMap.h"
 #include "lcd.h"
@@ -11,19 +12,22 @@
 #include "menuStateMachine.h"
 
 void setup() {
+    Serial.begin(9600);
     lcdSetup();
 
     // init message
     lcdSetColor(CRGB::Red);
     getLcd()->print("Initializing...");
 
-    Serial.begin(9600);
+    sdReaderSetup();
+    configSetup();
 
     // hardware
     ledsSetup();
     rotarySetup();
     buttonsSetup();
-    sdReaderSetup();
+
+    ledsFill(CRGB::White);
 
     // state machines
     menuStateMachineSetup();

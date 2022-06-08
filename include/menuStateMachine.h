@@ -4,6 +4,8 @@
 
 #include <StateMachine.h>
 
+#include "config.h"
+#include "leds.h"
 #include "buttons.h"
 #include "lcd.h"
 #include "menu.h"
@@ -65,7 +67,12 @@ bool toBrowsingTransition() {
 }
 
 bool brightnessToBrowsingTransition() {
-    return isButtonPressed(0);
+    if (isButtonPressed(0)) {
+        getConfig()->brightness = ledsGetBrightness();
+        saveConfig();
+        return true;
+    }
+    return false;
 }
 
 
