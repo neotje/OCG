@@ -5,26 +5,26 @@
 #include "ledsMap.h"
 #include "lcd.h"
 #include "rotary.h"
+#include "buttons.h"
+
+#include "menuStateMachine.h"
 
 void setup() {
     Serial.begin(9600);
 
     ledsSetup();
     lcdSetup();
+    lcdSetColor(CRGB::Gray);
     rotarySetup();
+    buttonsSetup();
 
-    lcdSetColor(CRGB::White);
+    menuStateMachineSetup();
 }
 
 void loop() {
     ledsLoop();
     rotaryLoop();
+    buttonsLoop();
 
-    getLcd()->setCursor(0, 0);
-    getLcd()->print("P: ");
-    getLcd()->print(getRotaryPosition());
-    getLcd()->setCursor(0, 1);
-
-    getLcd()->print("D: ");
-    getLcd()->print(getRotaryDelta());
+    menuStateMachineLoop();
 }
