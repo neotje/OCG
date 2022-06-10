@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 
+#include "pins.h"
 #include "types.h"
 
 const byte DOWN_STATE = 0;
@@ -9,7 +10,7 @@ const byte UP_STATE = 1;
 const int LONG_PRESS_TIME = 1000;
 
 Button buttons[] = {
-    {4, 0, false, false, false}
+    {BUTTON1_PIN, 0, false, false, false}
 };
 
 

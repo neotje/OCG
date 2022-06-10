@@ -5,10 +5,9 @@
 #define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
 
+#include "pins.h"
 #include "types.h"
 
-const byte ROTARY_CLK_PIN = 2;
-const byte ROTARY_DT_PIN = 3;
 
 Encoder encoder(ROTARY_CLK_PIN, ROTARY_DT_PIN);
 

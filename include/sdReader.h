@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
-#include "buttons.h"
 
-const byte CS_PIN = 10;
+#include "pins.h"
+#include "buttons.h"
 
 void sdReaderSetup() {
     while(!SD.begin(CS_PIN)) {
