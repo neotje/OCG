@@ -10,10 +10,13 @@ const uint8_t LEDSTRIP1_PIN = 9;
 const uint16_t NUM_LEDS = 10;
 CRGB leds[NUM_LEDS];
 
+const int BRIGHTNESS_UPDATE_INTERVAL = 1000/60;
+unsigned long lastBrightnessUpdate = 0;
+
 void ledsSetup() {
     FastLED.addLeds<WS2812B, LEDSTRIP1_PIN, RGB>(leds, NUM_LEDS);
 
-    FastLED.setBrightness(getConfig()->brightness);
+    FastLED.setBrightness(0);
 }
 
 /**
@@ -79,14 +82,19 @@ void ledsClear() {
     FastLED.clear();
 }
 
-void ledsSetBrightness(byte brightness) {
-    FastLED.setBrightness(brightness);
-}
-
-uint8_t ledsGetBrightness() {
-    return FastLED.getBrightness();
+void ledsUpdateBrightness() {
+    if (FastLED.getBrightness() < getConfig()->brightness) {
+        FastLED.setBrightness(FastLED.getBrightness() + 1);
+    } else if (FastLED.getBrightness() > getConfig()->brightness) {
+        FastLED.setBrightness(FastLED.getBrightness() - 1);
+    }
 }
 
 void ledsLoop() {
+    if (millis() - lastBrightnessUpdate > BRIGHTNESS_UPDATE_INTERVAL) {
+        lastBrightnessUpdate = millis();
+        ledsUpdateBrightness();
+    }
+
     FastLED.show();
 }

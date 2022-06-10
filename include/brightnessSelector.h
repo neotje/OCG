@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "rotary.h"
 #include "leds.h"
+#include "config.h"
 
 const byte MIN_BRIGHTNESS = 0;
 const byte MAX_BRIGHTNESS = 16;
@@ -27,7 +28,7 @@ void brightnessSelectorDraw() {
 }
 
 void brightnessSelectorSetup() {
-    currentBrightness = (ledsGetBrightness() + 1)/MAX_BRIGHTNESS;
+    currentBrightness = (getConfig()->brightness + 1)/MAX_BRIGHTNESS;
 
     brightnessSelectorDraw();
 }
@@ -43,7 +44,7 @@ void brightnessSelectorLoop() {
         }
 
         currentBrightness = constrain(currentBrightness, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-        ledsSetBrightness(constrain(currentBrightness * MAX_BRIGHTNESS, 0, 255));
+        getConfig()->brightness = constrain(currentBrightness * MAX_BRIGHTNESS, 0, 255);
 
         getLcd()->setCursor(0, 1);
         for (size_t i = 0; i < MAX_BRIGHTNESS; i++) {

@@ -68,7 +68,6 @@ bool toBrowsingTransition() {
 
 bool brightnessToBrowsingTransition() {
     if (isButtonPressed(0)) {
-        getConfig()->brightness = ledsGetBrightness();
         saveConfig();
         return true;
     }
