@@ -1,25 +1,32 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "config.h"
+//#include "config.h"
 #include "leds.h" 
 #include "ledsMap.h"
 #include "lcd.h"
 #include "rotary.h"
 #include "buttons.h"
-#include "sdReader.h"
+#include "flash.h"
 
 #include "menuStateMachine.h"
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(115200);
+    Serial.println("init");
+
     lcdSetup();
 
     // init message
     lcdSetColor(CRGB::Red);
     getLcd()->print("Initializing...");
 
-    sdReaderSetup();
+    while (!Serial) {
+        delay(100);
+    }
+    delay(2000);
+
+    flashSetup();
     configSetup();
 
     // hardware
@@ -27,7 +34,7 @@ void setup() {
     rotarySetup();
     buttonsSetup();
 
-    ledsFill(CRGB::White);
+    ledsFill(getConfig()->color);
 
     // state machines
     menuStateMachineSetup();

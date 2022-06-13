@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <FastLED.h>
 
 enum LedstripPosition {
     Right,
@@ -32,4 +33,5 @@ struct Button {
 
 struct Config {
     uint8_t brightness;
+    CRGB color;
 };

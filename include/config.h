@@ -1,12 +1,13 @@
 #pragma once
 
-#include "sdReader.h"
+#include "flash.h"
 #include "types.h"
 
 const char * CONFIG_FILE = "config.txt";
 
 Config config = {
-    255
+    255,
+    CRGB::White
 };
 
 File configFile;
@@ -16,42 +17,40 @@ Config * getConfig() {
 }
 
 bool loadConfig() {
-    if (!SD.exists(CONFIG_FILE)) {
+    if (!fs.exists(CONFIG_FILE)) {
         return false;
     }
 
-    configFile = SD.open(CONFIG_FILE, FILE_READ);
+    configFile = fs.open(CONFIG_FILE, O_READ);
 
     if (!configFile) {
         return false;
     }
 
-    configFile.read((byte *)&config, sizeof(config));
+    configFile.read((uint8_t *)&config, sizeof(config));
     configFile.close();
-
-    Serial.println("Config loaded");
 
     return true;
 }
 
 bool saveConfig() {
-    SD.remove(CONFIG_FILE);
-    configFile = SD.open(CONFIG_FILE, FILE_WRITE);
+    configFile = fs.open(CONFIG_FILE, O_WRITE);
 
     if (!configFile) {
         return false;
     }
 
-    configFile.write((byte *)&config, sizeof(config));
+    configFile.write((uint8_t *)&config, sizeof(config));
     configFile.close();
 
-    Serial.println("Config saved");
-    
     return true;
 }
 
-void configSetup() {
+void configSetup() {  
     if (!loadConfig()) {
         Serial.println("Could not find config");
+        saveConfig();
     }
+    Serial.println("Config loaded");
+    Serial.println("brightness: " + String(config.brightness));
 }
