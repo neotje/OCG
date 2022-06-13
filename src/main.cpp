@@ -21,11 +21,6 @@ void setup() {
     lcdSetColor(CRGB::Red);
     getLcd()->print("Initializing...");
 
-    while (!Serial) {
-        delay(100);
-    }
-    delay(2000);
-
     flashSetup();
     configSetup();
 
