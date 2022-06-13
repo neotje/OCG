@@ -28,7 +28,11 @@ void brightnessSelectorDraw() {
 }
 
 void brightnessSelectorSetup() {
-    currentBrightness = (getConfig()->brightness + 1)/MAX_BRIGHTNESS;
+    // linear
+    //currentBrightness = (getConfig()->brightness + 1)/MAX_BRIGHTNESS;
+
+    // parabolic
+    currentBrightness = round(sqrt(getConfig()->brightness));
 
     brightnessSelectorDraw();
 }
@@ -44,7 +48,15 @@ void brightnessSelectorLoop() {
         }
 
         currentBrightness = constrain(currentBrightness, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-        getConfig()->brightness = constrain(currentBrightness * MAX_BRIGHTNESS, 0, 255);
+
+        // linear
+        //getConfig()->brightness = constrain(currentBrightness * MAX_BRIGHTNESS, 0, 255);
+        
+        // exponential
+        //getConfig()->brightness = round(pow(1.41387, currentBrightness) - 1);
+
+        // parabolic
+        getConfig()->brightness = constrain(round(pow(currentBrightness, 2)), 0, 255);
 
         getLcd()->setCursor(0, 1);
         for (size_t i = 0; i < MAX_BRIGHTNESS; i++) {
