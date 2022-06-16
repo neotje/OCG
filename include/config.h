@@ -5,9 +5,15 @@
 
 const char * CONFIG_FILE = "config.txt";
 
+/** default config **/
 Config config = {
-    255,
-    CRGB::White
+    .brightness = 255,
+    .color = CRGB::White,
+    .currentEffect = 0,
+    {
+        .deltaHue = 5,
+        .speed = 100.0
+    }
 };
 
 File configFile;
@@ -44,6 +50,20 @@ bool saveConfig() {
     configFile.close();
 
     return true;
+}
+
+bool resetConfig() {
+    config = {
+        .brightness = 255,
+        .color = CRGB::White,
+        .currentEffect = 0,
+        {
+            .deltaHue = 5,
+            .speed = 100.0
+        }
+    };
+
+    return saveConfig();
 }
 
 void configSetup() {  

@@ -9,7 +9,7 @@
 const char *MENU_ENTRIES[] = {
     "Effects",
     "Brightness",
-    "Config"
+    "Reset config"
 };
 
 int8_t selectedEntry = 0;

@@ -57,5 +57,5 @@ void loop() {
     menuStateMachineLoop();
 
     timingLoop();
-    rainbowEffect();
+    effectsLoop();
 }
