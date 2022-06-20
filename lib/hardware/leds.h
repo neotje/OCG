@@ -6,7 +6,7 @@
 #include "pins.h"
 #include "config.h"
 
-const uint16_t NUM_LEDS = 10;
+const uint16_t NUM_LEDS = 100;
 CRGB leds[NUM_LEDS];
 
 const int BRIGHTNESS_UPDATE_INTERVAL = 1000/60;

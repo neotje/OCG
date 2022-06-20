@@ -6,8 +6,8 @@
 #include "leds.h"
 
 LedMap LEDS_MAP[] = {
-    {0, 5, Right, false},
-    {5, 10, Left, false}
+    {0, 50, Right, true},
+    {50, 100, Left, false}
 };
 
 uint8_t getNumOfLedMaps() {
@@ -44,6 +44,37 @@ void ledsMapSet(LedMap *ledMap, uint16_t index, const CRGB &color) {
     }
 
     ledsSetLed(ledIndex, color);
+}
+
+void ledsMapDraw(LedMap *ledMap, float fPos, float length, const CRGB &color) {
+    double firstPixel = 1.0 - (fPos - (long)(fPos));
+    firstPixel = min(firstPixel, length);
+    length = min(length, getLedsMapLength(ledMap)-fPos);
+
+    if (fPos >= 0 && fPos < getLedsMapLength(ledMap)) {
+        CRGB firstColor = color;
+        firstColor.fadeToBlackBy(255 * (1.0 - firstPixel));
+        ledsMapSet(ledMap, (uint16_t)fPos, firstColor);
+    }
+
+    fPos += firstPixel;
+    length -= firstPixel;
+
+    while (length >= 0) {
+        if (fPos >= 0 && fPos < getLedsMapLength(ledMap)) {
+            ledsMapSet(ledMap, (uint16_t)fPos, color);
+            length -= 1.0;
+        }
+        fPos += 1.0;
+    }
+
+    if (length > 0.0) {
+        if (fPos >= 0 && fPos < getLedsMapLength(ledMap)) {
+            CRGB lastColor = color;
+            lastColor.fadeToBlackBy(255 * (1.0 - firstPixel));
+            ledsMapSet(ledMap, (uint16_t)fPos, lastColor);
+        }
+    }
 }
 
 void ledsMapFill(LedstripPosition position, const CRGB &color) {
