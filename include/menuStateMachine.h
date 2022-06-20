@@ -39,7 +39,7 @@ void BrightnessState() {
 
 void ConfigState() {
     if (menuStateMachine.executeOnce) {
-        getLcd()->clear();
+        resetConfig();
     }
 }
 
@@ -74,6 +74,10 @@ bool brightnessToBrowsingTransition() {
     return false;
 }
 
+bool configToBrowsingTransition() {
+    return true;
+}
+
 
 void menuStateMachineSetup() {
     browsingState->addTransition(&browsingToEffectsTransition, effectsState);
@@ -82,7 +86,7 @@ void menuStateMachineSetup() {
 
     effectsState->addTransition(&toBrowsingTransition, browsingState);
     brightnessState->addTransition(&brightnessToBrowsingTransition, browsingState);
-    configState->addTransition(&toBrowsingTransition, browsingState);
+    configState->addTransition(&configToBrowsingTransition, browsingState);
 }
 
 void menuStateMachineLoop() {
