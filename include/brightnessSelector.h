@@ -11,7 +11,7 @@ const byte MAX_BRIGHTNESS = 16;
 const int BRIGHTNESS_CHANGE_TIMEOUT = 200;
 unsigned long lastBrightnessChange = 0;
 
-uint8_t currentBrightness = 0;
+int currentBrightness = 0;
 
 void brightnessSelectorDraw() {
     getLcd()->clear();
@@ -38,15 +38,10 @@ void brightnessSelectorSetup() {
 }
 
 void brightnessSelectorLoop() {
-    if (getRotaryDirection() != None && millis() - lastBrightnessChange > BRIGHTNESS_CHANGE_TIMEOUT) {
-        lastBrightnessChange = millis();
+    if (getRotaryDirection() != None) {
+        Serial.println(getRotaryDelta());
 
-        if (getRotaryDelta() > 0 && currentBrightness < MAX_BRIGHTNESS) {
-            currentBrightness++;
-        } else if (getRotaryDelta() < 0 && currentBrightness > MIN_BRIGHTNESS) {
-            currentBrightness--;
-        }
-
+        currentBrightness += getRotaryDelta();
         currentBrightness = constrain(currentBrightness, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
 
         // linear
