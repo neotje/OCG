@@ -13,41 +13,58 @@
 
 StateMachine menuStateMachine;
 
-
 /* ------------ States ------------- */
-void BrowsingState() {
-    if (menuStateMachine.executeOnce) {
-        menuSetup();
-    }
+class BrowsingState : public State {
+    public:
+        void enter() {
+            menuSetup();
+        };
+        void loop() {
+            menuLoop();
+        };
+        void exit() {
 
-    menuLoop();
-}
+        };
+};
 
-void EffectsState() {
-    if (menuStateMachine.executeOnce) {
-        getLcd()->clear();
-    }
-}
+BrowsingState browsingState;
 
-void BrightnessState() {
-    if (menuStateMachine.executeOnce) {
-        brightnessSelectorSetup();
-    }
+class EffectsState : public State {
+    public:
+        void enter() {
+            getLcd()->clear();
+        };
+        void loop() { };
+        void exit() { };
+};
 
-    brightnessSelectorLoop();
-}
+EffectsState effectsState;
 
-void ConfigState() {
-    if (menuStateMachine.executeOnce) {
-        resetConfig();
-    }
-}
+class BrightnessState : public State {
+    public:
+        void enter() {
+            brightnessSelectorSetup();
+        };
+        void loop() { 
+            brightnessSelectorLoop();
+        };
+        void exit() { 
+            saveConfig();
+        };
+};
 
-State* browsingState = menuStateMachine.addState(&BrowsingState);
-State* effectsState = menuStateMachine.addState(&EffectsState);
-State* brightnessState = menuStateMachine.addState(&BrightnessState);
-State* configState = menuStateMachine.addState(&ConfigState);
+BrightnessState brightnessState;
 
+class ConfigState : public State {
+    public:
+        void enter() {
+            resetConfig();
+        };
+        void loop() { };
+        void exit() { };
+};
+
+ConfigState configState;
 
 /* ------------ Transitions ------------- */
 bool browsingToEffectsTransition() {
@@ -67,11 +84,7 @@ bool toBrowsingTransition() {
 }
 
 bool brightnessToBrowsingTransition() {
-    if (isButtonPressed(0)) {
-        saveConfig();
-        return true;
-    }
-    return false;
+    return isButtonPressed(0);
 }
 
 bool configToBrowsingTransition() {
@@ -80,13 +93,20 @@ bool configToBrowsingTransition() {
 
 
 void menuStateMachineSetup() {
-    browsingState->addTransition(&browsingToEffectsTransition, effectsState);
-    browsingState->addTransition(&browsingToBrightnessTransition, brightnessState);
-    browsingState->addTransition(&browsingToConfigTransition, configState);
+    menuStateMachine.addState(&browsingState);
+    menuStateMachine.addState(&effectsState);
+    menuStateMachine.addState(&brightnessState);
+    menuStateMachine.addState(&configState);
 
-    effectsState->addTransition(&toBrowsingTransition, browsingState);
-    brightnessState->addTransition(&brightnessToBrowsingTransition, browsingState);
-    configState->addTransition(&configToBrowsingTransition, browsingState);
+    browsingState.addTransition(&browsingToEffectsTransition, &effectsState);
+    browsingState.addTransition(&browsingToBrightnessTransition, &brightnessState);
+    browsingState.addTransition(&browsingToConfigTransition, &configState);
+
+    effectsState.addTransition(&toBrowsingTransition, &browsingState);
+
+    brightnessState.addTransition(&brightnessToBrowsingTransition, &browsingState);
+
+    configState.addTransition(&configToBrowsingTransition, &browsingState);
 }
 
 void menuStateMachineLoop() {
