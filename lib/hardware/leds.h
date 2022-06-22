@@ -16,6 +16,7 @@ void ledsSetup() {
     FastLED.addLeds<WS2812B, LEDSTRIP1_PIN, RGB>(leds, NUM_LEDS);
 
     FastLED.setBrightness(0);
+    FastLED.setMaxRefreshRate(60);
 }
 
 /**

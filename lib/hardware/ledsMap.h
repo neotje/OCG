@@ -77,10 +77,14 @@ void ledsMapDraw(LedMap *ledMap, float fPos, float length, const CRGB &color) {
     }
 }
 
+void ledsMapFill(LedMap *ledMap, const CRGB &color) {
+    ledsFill(color, ledMap->start, ledMap->end);
+}
+
 void ledsMapFill(LedstripPosition position, const CRGB &color) {
     for (uint8_t i = 0; i < sizeof(LEDS_MAP) / sizeof(LEDS_MAP[0]); i++) {
         if (LEDS_MAP[i].position == position) {
-            ledsFill(color, LEDS_MAP[i].start, LEDS_MAP[i].end - 1);
+            ledsMapFill(&LEDS_MAP[i], color);
             return;
         }
     }

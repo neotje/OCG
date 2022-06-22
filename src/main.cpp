@@ -13,7 +13,7 @@
 #include "timing.h"
 #include "effects.h"
 
-#include "menuStateMachine.h"
+#include "mainStateMachine.h"
 
 void setup() {
     Serial.begin(115200);
@@ -40,7 +40,7 @@ void setup() {
     //accelGyroSetup();
     
     // state machines
-    menuStateMachineSetup();
+    mainStateMachineSetup();
 
     lcdSetColor(CRGB::Gray);
     getLcd()->clear();
@@ -54,7 +54,7 @@ void loop() {
     buttonsLoop();
     //accelGyroLoop();
 
-    menuStateMachineLoop();
+    mainStateMachineLoop();
 
     timingLoop();
     effectsLoop();

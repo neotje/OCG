@@ -6,9 +6,11 @@
 #include "types.h"
 
 #include "rainbow.h"
+#include "solid.h"
 
 Effect EFFECTS[] = {
-    {rainbowEffect, "rainbow"}
+    {rainbowEffect, "Rainbow"},
+    {solidEffect, "Solid"}
 };
 
 uint8_t getEffectsCount() {
@@ -17,6 +19,11 @@ uint8_t getEffectsCount() {
 
 Effect *getEffect(uint8_t index) {
     return &EFFECTS[index];
+}
+
+void setEffect(uint8_t index) {
+    getConfig()->currentEffect = index;
+    saveConfig();
 }
 
 void effectsLoop() {
