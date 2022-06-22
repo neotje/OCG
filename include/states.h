@@ -3,10 +3,10 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 
-#include "menu.h"
 #include "lcd.h"
 #include "config.h"
-#include "brightnessSelector.h"
+#include "valueScreen.h"
+#include "menuScreen.h"
 
 /* ------------ States ------------- */
 class BrowsingState : public MenuScreen {
@@ -32,17 +32,22 @@ class EffectsState : public State {
 
 EffectsState effectsState;
 
-class BrightnessState : public State {
+class BrightnessState : public ValueScreen {
     public:
-        void enter() {
-            brightnessSelectorSetup();
-        };
-        void loop() { 
-            brightnessSelectorLoop();
-        };
-        void exit() { 
+        BrightnessState() : ValueScreen(0, 255, "Brightness", 255/80) { }
+        ~BrightnessState() {}
+
+        void onValueChanged(int value) {
+            getConfig()->brightness = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->brightness);
+        }
+
+        void onSave() {
             saveConfig();
-        };
+        }
 };
 
 BrightnessState brightnessState;

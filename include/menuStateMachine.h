@@ -6,7 +6,6 @@
 
 #include "leds.h"
 #include "buttons.h"
-#include "menu.h"
 #include "states.h"
 
 StateMachine menuStateMachine;
@@ -35,7 +34,6 @@ bool brightnessToBrowsingTransition() {
 bool configToBrowsingTransition() {
     return true;
 }
-
 
 void menuStateMachineSetup() {
     menuStateMachine.addState(&browsingState);
