@@ -4,79 +4,24 @@
 
 #include <StateMachine.h>
 
-#include "config.h"
 #include "leds.h"
 #include "buttons.h"
-#include "lcd.h"
 #include "menu.h"
-#include "brightnessSelector.h"
+#include "states.h"
 
 StateMachine menuStateMachine;
 
-/* ------------ States ------------- */
-class BrowsingState : public State {
-    public:
-        void enter() {
-            menuSetup();
-        };
-        void loop() {
-            menuLoop();
-        };
-        void exit() {
-
-        };
-};
-
-BrowsingState browsingState;
-
-class EffectsState : public State {
-    public:
-        void enter() {
-            getLcd()->clear();
-        };
-        void loop() { };
-        void exit() { };
-};
-
-EffectsState effectsState;
-
-class BrightnessState : public State {
-    public:
-        void enter() {
-            brightnessSelectorSetup();
-        };
-        void loop() { 
-            brightnessSelectorLoop();
-        };
-        void exit() { 
-            saveConfig();
-        };
-};
-
-BrightnessState brightnessState;
-
-class ConfigState : public State {
-    public:
-        void enter() {
-            resetConfig();
-        };
-        void loop() { };
-        void exit() { };
-};
-
-ConfigState configState;
-
 /* ------------ Transitions ------------- */
 bool browsingToEffectsTransition() {
-    return isButtonPressed(0) && getMenuSelectedEntry() == 0;
+    return isButtonPressed(0) && browsingState.getSelectedEntry() == 0;
 }
 
 bool browsingToBrightnessTransition() {
-    return isButtonPressed(0) && getMenuSelectedEntry() == 1;
+    return isButtonPressed(0) && browsingState.getSelectedEntry() == 1;
 }
 
 bool browsingToConfigTransition() {
-    return isButtonPressed(0) && getMenuSelectedEntry() == 2;
+    return isButtonPressed(0) && browsingState.getSelectedEntry() == 2;
 }
 
 bool toBrowsingTransition() {
