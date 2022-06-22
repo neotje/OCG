@@ -58,13 +58,8 @@ class MenuScreen : public State {
             return (this->entries->get(this->selectedEntry))->state;
         }
 
-        void addMenuEntry(const char * entry) {
-            MenuEntry * menuEntry = new MenuEntry{entry, NULL};
-            this->entries->add(menuEntry);
-        }
-
-        void addMenuEntry(const char * entry, State * state) {
-            MenuEntry * menuEntry = new MenuEntry{entry, state};
+        void addMenuEntry(const char * entryName, State * state = NULL) {
+            MenuEntry * menuEntry = new MenuEntry{entryName, state};
             this->entries->add(menuEntry);
         }
 
