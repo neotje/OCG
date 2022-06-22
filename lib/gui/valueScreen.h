@@ -62,7 +62,7 @@ class ValueScreen : public State {
             this->draw();
         }
 
-        void loop() {
+        int loop() {
             if (getRotaryDirection() != None) {
                 this->value += (getRotaryDelta() * abs(getRotaryDelta())) * stepSize
 ;
@@ -71,6 +71,8 @@ class ValueScreen : public State {
                 this->draw();
                 this->onValueChanged(this->value);
             }
+
+            return -1;
         }
 
         void exit() {

@@ -6,16 +6,22 @@
 
 #include "lcd.h"
 #include "rotary.h"
+#include "buttons.h"
+
+struct MenuEntry {
+    const char* name;
+    State* state;
+};
 
 class MenuScreen : public State {
     private:
-        LinkedList<char *> * entries;
+        LinkedList<MenuEntry *> * entries;
         int selectedEntry;
 
         void draw() {
             getLcd()->command(LCD_CLEARDISPLAY);
 
-            getLcd()->print(this->entries->get(selectedEntry));
+            getLcd()->print(this->entries->get(selectedEntry)->name);
 
             if (this->selectedEntry != 0) {
                 getLcd()->setCursor(0, 1);
@@ -30,7 +36,7 @@ class MenuScreen : public State {
     
     public:
         MenuScreen() {
-            this->entries = new LinkedList<char *>();
+            this->entries = new LinkedList<MenuEntry *>();
             selectedEntry = 0;
         }
         ~MenuScreen() {}
@@ -39,19 +45,34 @@ class MenuScreen : public State {
             return this->selectedEntry;
         }
 
-        char * getSelectedEntryName() {
-            return this->entries->get(this->selectedEntry);
+        void setSelectedEntry(int entry) {
+            this->selectedEntry = entry;
+            this->draw();
         }
 
-        void addMenuEntry(char * entry) {
-            this->entries->add(entry);
+        const char * getSelectedEntryName() {
+            return (this->entries->get(this->selectedEntry))->name;
+        }
+
+        State * getSelectedEntryState() {
+            return (this->entries->get(this->selectedEntry))->state;
+        }
+
+        void addMenuEntry(const char * entry) {
+            MenuEntry * menuEntry = new MenuEntry{entry, NULL};
+            this->entries->add(menuEntry);
+        }
+
+        void addMenuEntry(const char * entry, State * state) {
+            MenuEntry * menuEntry = new MenuEntry{entry, state};
+            this->entries->add(menuEntry);
         }
 
         void enter() {
             this->draw();
         }
 
-        void loop() {
+        int loop() {
             if (getRotaryDirection() != None) {
 
                 selectedEntry += getRotaryDelta();
@@ -59,7 +80,19 @@ class MenuScreen : public State {
 
                 this->draw();
             }
+
+            if (isButtonPressed(0)) {
+                this->onClick(selectedEntry);
+
+                if (getSelectedEntryState() != NULL) {
+                    return getSelectedEntryState()->index;
+                }
+            }
+            
+            return -1;
         }
 
         void exit() {}
+
+        virtual void onClick(int entryIndex) = 0;
 };

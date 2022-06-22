@@ -7,27 +7,35 @@
 #include "config.h"
 #include "valueScreen.h"
 #include "menuScreen.h"
+#include "effects.h"
 
 /* ------------ States ------------- */
 class BrowsingState : public MenuScreen {
     public:
-        BrowsingState() {
-            this->addMenuEntry("Effects");
-            this->addMenuEntry("Brightness");
-            this->addMenuEntry("Config");
-        }
-        ~BrowsingState() {}
+        BrowsingState() { }
+        ~BrowsingState() { }
+
+        void onClick(int entryIndex) { }
 };
 
 BrowsingState browsingState;
 
-class EffectsState : public State {
+class EffectsState : public MenuScreen {
     public:
+        EffectsState() { 
+            for (uint8_t i = 0; i < getEffectsCount(); i++) {
+                this->addMenuEntry(getEffect(i)->name);
+            }
+        }
+        ~EffectsState() { }
+
+        void onClick(int entryIndex) {
+            setEffect(entryIndex);
+        }
+
         void enter() {
-            getLcd()->clear();
-        };
-        void loop() { };
-        void exit() { };
+            this->setSelectedEntry(getConfig()->currentEffect);
+        }
 };
 
 EffectsState effectsState;
@@ -57,7 +65,7 @@ class ConfigState : public State {
         void enter() {
             resetConfig();
         };
-        void loop() { };
+        int loop() { return -1;};
         void exit() { };
 };
 

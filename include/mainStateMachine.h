@@ -11,18 +11,6 @@
 StateMachine menuStateMachine;
 
 /* ------------ Transitions ------------- */
-bool browsingToEffectsTransition() {
-    return isButtonPressed(0) && browsingState.getSelectedEntry() == 0;
-}
-
-bool browsingToBrightnessTransition() {
-    return isButtonPressed(0) && browsingState.getSelectedEntry() == 1;
-}
-
-bool browsingToConfigTransition() {
-    return isButtonPressed(0) && browsingState.getSelectedEntry() == 2;
-}
-
 bool toBrowsingTransition() {
     return isButtonLongPressed(0);
 }
@@ -35,15 +23,15 @@ bool configToBrowsingTransition() {
     return true;
 }
 
-void menuStateMachineSetup() {
+void mainStateMachineSetup() {
     menuStateMachine.addState(&browsingState);
     menuStateMachine.addState(&effectsState);
     menuStateMachine.addState(&brightnessState);
     menuStateMachine.addState(&configState);
 
-    browsingState.addTransition(&browsingToEffectsTransition, &effectsState);
-    browsingState.addTransition(&browsingToBrightnessTransition, &brightnessState);
-    browsingState.addTransition(&browsingToConfigTransition, &configState);
+    browsingState.addMenuEntry("Effects", &effectsState);
+    browsingState.addMenuEntry("Brightness", &brightnessState);
+    browsingState.addMenuEntry("Config", &configState);
 
     effectsState.addTransition(&toBrowsingTransition, &browsingState);
 
@@ -52,6 +40,6 @@ void menuStateMachineSetup() {
     configState.addTransition(&configToBrowsingTransition, &browsingState);
 }
 
-void menuStateMachineLoop() {
+void mainStateMachineLoop() {
     menuStateMachine.run();
 }

@@ -34,7 +34,7 @@ class State{
 	int index;
 
     virtual void enter() = 0;
-    virtual void loop() = 0;
+    virtual int loop() = 0;
     virtual void exit() = 0;
 };
 
@@ -95,7 +95,10 @@ int State::evalTransitions(){
  * returns true is returned.
  */
 int State::execute(){
-  loop();
+  int result = loop();
+
+  if (result != -1) return result;
+
   return evalTransitions();
 }
 
