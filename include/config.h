@@ -8,7 +8,7 @@ const char * CONFIG_FILE = "config.txt";
 /** default config **/
 Config config = {
     .brightness = 255,
-    .color = CRGB::White,
+    .color = CHSV(0, 0, 255),
     .currentEffect = 0,
     {
         .deltaHue = 5,
@@ -55,7 +55,7 @@ bool saveConfig() {
 bool resetConfig() {
     config = {
         .brightness = 255,
-        .color = CRGB::White,
+        .color = CHSV(0, 0, 255),
         .currentEffect = 0,
         {
             .deltaHue = 5,

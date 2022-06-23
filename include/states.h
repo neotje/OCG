@@ -6,6 +6,7 @@
 #include "lcd.h"
 #include "config.h"
 #include "valueScreen.h"
+#include "hsvScreen.h"
 #include "menuScreen.h"
 #include "effects.h"
 
@@ -62,6 +63,27 @@ class RainbowConfigScreen : public MenuScreen {
         int onClick(int entryIndex) { return -1; }
 };
 RainbowConfigScreen rainbowConfigScreen;
+
+
+class SolidHSVScreen : public HSVScreen {
+    public:
+        SolidHSVScreen() {}
+        ~SolidHSVScreen() {}
+
+        void onLoad() {
+            setColor(getConfig()->color);
+        }
+
+        void onSave(CHSV value) {
+            getConfig()->color = value;
+            saveConfig();
+        }
+
+        void onColorChange(CHSV value) {
+            getConfig()->color = value;
+        }
+};
+SolidHSVScreen solidHSVScreen;
 
 
 class MainMenuState : public MenuScreen {

@@ -50,7 +50,7 @@ struct RainbowEffectConfig {
 
 struct Config {
     uint8_t brightness;
-    CRGB color;
+    CHSV color;
     uint8_t currentEffect;
     RainbowEffectConfig rainbowEffect;
 };

@@ -25,10 +25,13 @@ void mainStateMachineSetup() {
     mainStateMachine.addState(&rainbowConfigScreen);
     mainStateMachine.addState(&rainbowSpeedSelector);
     mainStateMachine.addState(&rainbowDeltaHueSelector);
+    mainStateMachine.addState(&solidHSVScreen);
 
     mainMenuState.addMenuEntry("Effects", &effectSelectState);
     mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
     mainMenuState.addMenuEntry("Config");
+
+    mainMenuState.addTransition(&longPressTransition, &solidHSVScreen);
 
     effectSelectState.addTransition(&longPressTransition, &mainMenuState);
 
