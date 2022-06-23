@@ -41,6 +41,7 @@ void setup() {
     
     // state machines
     mainStateMachineSetup();
+    effectsSetup();
 
     lcdSetColor(CRGB::Gray);
     getLcd()->clear();

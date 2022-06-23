@@ -41,14 +41,9 @@ struct AccelGyroData {
     int16_t temp;
 };
 
-struct Effect {
-    void (*func)();
-    const char* name;
-};
-
 /****** CONFIG ******/
 
-struct RainbowEffect {
+struct RainbowEffectConfig {
     uint8_t deltaHue;
     double speed;
 };
@@ -57,5 +52,5 @@ struct Config {
     uint8_t brightness;
     CRGB color;
     uint8_t currentEffect;
-    RainbowEffect rainbowEffect;
+    RainbowEffectConfig rainbowEffect;
 };

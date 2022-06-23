@@ -2,33 +2,45 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
+#include <LinkedList.h>
 
-#include "types.h"
+#include "Effect.h"
 
 #include "rainbow.h"
 #include "solid.h"
 
-Effect EFFECTS[] = {
-    {rainbowEffect, "Rainbow"},
-    {solidEffect, "Solid"}
-};
+LinkedList<Effect*> effects;
 
 uint8_t getEffectsCount() {
-    return sizeof(EFFECTS) / sizeof(EFFECTS[0]);
+    return effects.size();
 }
 
 Effect *getEffect(uint8_t index) {
-    return &EFFECTS[index];
+    if (index >= getEffectsCount()) {
+        return NULL;
+    }
+    return effects.get(index);
 }
 
 void setEffect(uint8_t index) {
-    getConfig()->currentEffect = index;
-    saveConfig();
+    if (index < getEffectsCount()) {
+        getConfig()->currentEffect = index;
+        getEffect(getConfig()->currentEffect)->setup();
+        saveConfig();
+    }
+}
+
+void effectsSetup() {
+    effects.add(new RainbowEffect());
+    //effects.add(new SolidEffect());
+
+    setEffect(getConfig()->currentEffect);
 }
 
 void effectsLoop() {
-    if (getConfig()->currentEffect < sizeof(EFFECTS) / sizeof(EFFECTS[0])) {
-        const Effect *effect = getEffect(getConfig()->currentEffect);
-        effect->func();
+    if (getConfig()->currentEffect < getEffectsCount()) {
+        Effect *effect = getEffect(getConfig()->currentEffect);
+
+        effect->run();
     }
 }
