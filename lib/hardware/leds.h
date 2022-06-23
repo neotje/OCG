@@ -12,11 +12,15 @@ CRGB leds[NUM_LEDS];
 const int BRIGHTNESS_UPDATE_INTERVAL = 1000/60;
 unsigned long lastBrightnessUpdate = 0;
 
+const uint32_t SHOW_INTERVAL = 1000000 / 200;
+uint32_t lastShow = 0;
+
 void ledsSetup() {
     FastLED.addLeds<WS2812B, LEDSTRIP1_PIN, RGB>(leds, NUM_LEDS);
 
     FastLED.setBrightness(0);
-    FastLED.setMaxRefreshRate(60);
+    //FastLED.setMaxRefreshRate(200);
+    lastShow = micros();
 }
 
 /**
@@ -96,5 +100,8 @@ void ledsLoop() {
         ledsUpdateBrightness();
     }
 
-    FastLED.show();
+    if (micros() - lastShow > SHOW_INTERVAL) {
+        lastShow = micros();
+        FastLED.show();
+    }
 }
