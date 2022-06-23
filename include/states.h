@@ -82,10 +82,10 @@ class MainMenuState : public MenuScreen {
 };
 MainMenuState mainMenuState;
 
-class EffectsState : public MenuScreen {
+class EffectSelectState : public MenuScreen {
     public:
-        EffectsState() { }
-        ~EffectsState() { }
+        EffectSelectState() { }
+        ~EffectSelectState() { }
 
         int onClick(int entryIndex) {
             setEffect(entryIndex);
@@ -102,12 +102,12 @@ class EffectsState : public MenuScreen {
             this->setSelectedEntry(getConfig()->currentEffect);
         }
 };
-EffectsState effectsState;
+EffectSelectState effectSelectState;
 
-class BrightnessState : public ValueScreen {
+class BrightnessSelectState : public ValueScreen {
     public:
-        BrightnessState() : ValueScreen(0, 255, "Brightness", 255/80) { }
-        ~BrightnessState() {}
+        BrightnessSelectState() : ValueScreen(0, 255, "Brightness", 1) { }
+        ~BrightnessSelectState() {}
 
         void onValueChanged(int value) {
             getConfig()->brightness = value;
@@ -121,4 +121,4 @@ class BrightnessState : public ValueScreen {
             saveConfig();
         }
 };
-BrightnessState brightnessState;
+BrightnessSelectState brightnessSelectState;

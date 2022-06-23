@@ -20,19 +20,19 @@ bool longPressTransition() {
 
 void mainStateMachineSetup() {
     mainStateMachine.addState(&mainMenuState);
-    mainStateMachine.addState(&effectsState);
-    mainStateMachine.addState(&brightnessState);
+    mainStateMachine.addState(&effectSelectState);
+    mainStateMachine.addState(&brightnessSelectState);
     mainStateMachine.addState(&rainbowConfigScreen);
     mainStateMachine.addState(&rainbowSpeedSelector);
     mainStateMachine.addState(&rainbowDeltaHueSelector);
 
-    mainMenuState.addMenuEntry("Effects", &effectsState);
-    mainMenuState.addMenuEntry("Brightness", &brightnessState);
+    mainMenuState.addMenuEntry("Effects", &effectSelectState);
+    mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
     mainMenuState.addMenuEntry("Config");
 
-    effectsState.addTransition(&longPressTransition, &mainMenuState);
+    effectSelectState.addTransition(&longPressTransition, &mainMenuState);
 
-    brightnessState.addTransition(&oneClickTransition, &mainMenuState);
+    brightnessSelectState.addTransition(&oneClickTransition, &mainMenuState);
 
     rainbowConfigScreen.addTransition(&longPressTransition, &mainMenuState);
     rainbowSpeedSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
