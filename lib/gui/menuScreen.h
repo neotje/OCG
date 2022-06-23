@@ -63,6 +63,10 @@ class MenuScreen : public State {
             this->entries->add(menuEntry);
         }
 
+        void clearMenuEntries() {
+            this->entries->clear();
+        }
+
         void enter() {
             this->draw();
         }
@@ -76,18 +80,24 @@ class MenuScreen : public State {
                 this->draw();
             }
 
+            int result = -1;
+
             if (isButtonPressed(0)) {
-                this->onClick(selectedEntry);
+                result = this->onClick(selectedEntry);
+
+                if (result != -1) {
+                    return result;
+                }
 
                 if (getSelectedEntryState() != NULL) {
-                    return getSelectedEntryState()->index;
+                    result = getSelectedEntryState()->index;
                 }
             }
             
-            return -1;
+            return result;
         }
 
         void exit() {}
 
-        virtual void onClick(int entryIndex) = 0;
+        virtual int onClick(int entryIndex) = 0;
 };
