@@ -12,6 +12,7 @@
 class HSVScreen : public State {
     private:
         CHSV color;
+        CRGB lcdColor = CRGB::White;
 
         int currentSelected;
         bool editing;
@@ -96,12 +97,15 @@ class HSVScreen : public State {
                     this->onColorChange(this->color);
 
                     drawBottom();
+
+                    lcdSetColor(lcdColor.setHSV(this->color.hue, this->color.sat, constrain(this->color.val, 60, 255)));
                 }
 
                 if (isButtonPressed(0)) {
                     this->editing = false;
                     this->onSave(this->color);
                     drawTop();
+                    lcdSetColor(CRGB::Gray);
                 }
             } else {
                 if (getRotaryDirection() != None) {
