@@ -8,38 +8,37 @@
 #include "buttons.h"
 #include "states.h"
 
-StateMachine menuStateMachine;
 
 /* ------------ Transitions ------------- */
-bool toBrowsingTransition() {
-    return isButtonLongPressed(0);
-}
-
-bool brightnessToBrowsingTransition() {
+bool oneClickTransition() {
     return isButtonPressed(0);
 }
 
-bool configToBrowsingTransition() {
-    return true;
+bool longPressTransition() {
+    return isButtonLongPressed(0);
 }
 
 void mainStateMachineSetup() {
-    menuStateMachine.addState(&browsingState);
-    menuStateMachine.addState(&effectsState);
-    menuStateMachine.addState(&brightnessState);
-    menuStateMachine.addState(&configState);
+    mainStateMachine.addState(&mainMenuState);
+    mainStateMachine.addState(&effectsState);
+    mainStateMachine.addState(&brightnessState);
+    mainStateMachine.addState(&rainbowConfigScreen);
+    mainStateMachine.addState(&rainbowSpeedSelector);
+    mainStateMachine.addState(&rainbowDeltaHueSelector);
 
-    browsingState.addMenuEntry("Effects", &effectsState);
-    browsingState.addMenuEntry("Brightness", &brightnessState);
-    browsingState.addMenuEntry("Config", &configState);
+    mainMenuState.addMenuEntry("Effects", &effectsState);
+    mainMenuState.addMenuEntry("Brightness", &brightnessState);
+    mainMenuState.addMenuEntry("Config");
 
-    effectsState.addTransition(&toBrowsingTransition, &browsingState);
+    effectsState.addTransition(&longPressTransition, &mainMenuState);
 
-    brightnessState.addTransition(&brightnessToBrowsingTransition, &browsingState);
+    brightnessState.addTransition(&oneClickTransition, &mainMenuState);
 
-    configState.addTransition(&configToBrowsingTransition, &browsingState);
+    rainbowConfigScreen.addTransition(&longPressTransition, &mainMenuState);
+    rainbowSpeedSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
+    rainbowDeltaHueSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
 }
 
 void mainStateMachineLoop() {
-    menuStateMachine.run();
+    mainStateMachine.run();
 }

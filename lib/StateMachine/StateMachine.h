@@ -44,15 +44,17 @@ void StateMachine::run(){
   if(stateList->size() == 0) return;
 
   // Initial condition
-  if(currentState == -1){
+  if(this->currentState == -1){
     transitionTo(0);
   }
   
   // Execute state logic and return transitioned
   // to state number. 
-  int next = stateList->get(currentState)->execute();
 
-  if (currentState != next) {
+  Serial.println(currentState);
+  int next = stateList->get(this->currentState)->execute();
+
+  if (this->currentState != next) {
     transitionTo(next);
   }
 }
@@ -74,6 +76,11 @@ State* StateMachine::transitionTo(State* state){
   if (this->currentState != -1) {
     stateList->get(this->currentState)->exit();
   }
+
+  Serial.print("From: ");
+  Serial.print(this->currentState);
+  Serial.print(" To: ");
+  Serial.println(state->index);
 
   this->currentState = state->index;
   state->enter();

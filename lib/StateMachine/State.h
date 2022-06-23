@@ -77,7 +77,9 @@ void State::addTransition(bool (*conditionFunction)(), int stateNumber){
  * -1 if none evaluate to true ===> Returning index now instead to avoid confusion between first run and no transitions
  */
 int State::evalTransitions(){
-  if(transitions->size() == 0) return index;
+  if(transitions->size() == 0) {
+    return index;
+  }
   bool result = false;
   
   for(int i=0;i<transitions->size();i++){
@@ -86,6 +88,7 @@ int State::evalTransitions(){
       return transitions->get(i)->stateNumber;
     }
   }
+
   return index;
 }
 
@@ -97,7 +100,9 @@ int State::evalTransitions(){
 int State::execute(){
   int result = loop();
 
-  if (result != -1) return result;
+  if (result != -1) {
+    return result;
+  }
 
   return evalTransitions();
 }
