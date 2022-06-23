@@ -5,12 +5,25 @@
 
 #include "ledsMap.h"
 #include "config.h"
+#include "Effect.h"
 
-void solidEffect() {
-    FastLED.clear();
+class SolidEffect : public Effect {
+    private:
+        double hue;
 
-    for (uint8_t i = 0; i < getNumOfLedMaps(); i++) {
-        LedMap *ledMap = getLedMap(i);
-        ledsMapFill(ledMap, getConfig()->color);
-    }
-}
+    public:
+        SolidEffect() : Effect("Solid") { 
+            hue = 0;
+        }
+        ~SolidEffect() { }
+
+        void setup() { }
+        void run() {
+            FastLED.clear();
+
+            for (uint8_t i = 0; i < getNumOfLedMaps(); i++) {
+                LedMap *ledMap = getLedMap(i);
+                ledsMapFill(ledMap, getConfig()->color);
+            }
+        }
+};

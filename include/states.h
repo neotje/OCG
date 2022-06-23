@@ -96,6 +96,8 @@ class MainMenuState : public MenuScreen {
                 switch (getConfig()->currentEffect) {
                     case 0:
                         return rainbowConfigScreen.index;
+                    case 1:
+                        return solidHSVScreen.index;
                 };
             }
 

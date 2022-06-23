@@ -31,8 +31,6 @@ void mainStateMachineSetup() {
     mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
     mainMenuState.addMenuEntry("Config");
 
-    mainMenuState.addTransition(&longPressTransition, &solidHSVScreen);
-
     effectSelectState.addTransition(&longPressTransition, &mainMenuState);
 
     brightnessSelectState.addTransition(&oneClickTransition, &mainMenuState);
@@ -40,6 +38,8 @@ void mainStateMachineSetup() {
     rainbowConfigScreen.addTransition(&longPressTransition, &mainMenuState);
     rainbowSpeedSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
     rainbowDeltaHueSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
+
+    solidHSVScreen.addTransition(&longPressTransition, &mainMenuState);
 }
 
 void mainStateMachineLoop() {

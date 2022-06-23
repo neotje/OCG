@@ -32,7 +32,7 @@ void setEffect(uint8_t index) {
 
 void effectsSetup() {
     effects.add(new RainbowEffect());
-    //effects.add(new SolidEffect());
+    effects.add(new SolidEffect());
 
     setEffect(getConfig()->currentEffect);
 }
