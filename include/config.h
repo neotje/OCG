@@ -10,9 +10,13 @@ Config config = {
     .brightness = 255,
     .color = CHSV(0, 0, 255),
     .currentEffect = 0,
-    {
+    .rainbowEffect = {
         .deltaHue = 5,
         .speed = 100.0
+    },
+    .twinkleEffect = {
+        .delay = 200,
+        .fraction = 4
     }
 };
 
@@ -57,9 +61,13 @@ bool resetConfig() {
         .brightness = 255,
         .color = CHSV(0, 0, 255),
         .currentEffect = 0,
-        {
+        .rainbowEffect = {
             .deltaHue = 5,
             .speed = 100.0
+        },
+        .twinkleEffect = {
+            .delay = 200,
+            .fraction = 4
         }
     };
 

@@ -8,6 +8,7 @@
 
 #include "rainbow.h"
 #include "solid.h"
+#include "twinkle.h"
 
 LinkedList<Effect*> effects;
 
@@ -33,6 +34,7 @@ void setEffect(uint8_t index) {
 void effectsSetup() {
     effects.add(new RainbowEffect());
     effects.add(new SolidEffect());
+    effects.add(new TwinkleEffect());
 
     setEffect(getConfig()->currentEffect);
 }

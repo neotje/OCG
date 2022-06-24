@@ -26,6 +26,9 @@ void mainStateMachineSetup() {
     mainStateMachine.addState(&rainbowSpeedSelector);
     mainStateMachine.addState(&rainbowDeltaHueSelector);
     mainStateMachine.addState(&solidHSVScreen);
+    mainStateMachine.addState(&twinkleConfigScreen);
+    mainStateMachine.addState(&twinkleDelaySelector);
+    mainStateMachine.addState(&twinkleFractionSelector);
 
     mainMenuState.addMenuEntry("Effects", &effectSelectState);
     mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
@@ -40,6 +43,10 @@ void mainStateMachineSetup() {
     rainbowDeltaHueSelector.addTransition(&oneClickTransition, &rainbowConfigScreen);
 
     solidHSVScreen.addTransition(&longPressTransition, &mainMenuState);
+
+    twinkleConfigScreen.addTransition(&longPressTransition, &mainMenuState);
+    twinkleDelaySelector.addTransition(&oneClickTransition, &twinkleConfigScreen);
+    twinkleFractionSelector.addTransition(&oneClickTransition, &twinkleConfigScreen);
 }
 
 void mainStateMachineLoop() {

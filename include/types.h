@@ -48,9 +48,15 @@ struct RainbowEffectConfig {
     double speed;
 };
 
+struct TwinkleEffectConfig {
+    uint32_t delay;
+    uint8_t fraction;
+};
+
 struct Config {
     uint8_t brightness;
     CHSV color;
     uint8_t currentEffect;
     RainbowEffectConfig rainbowEffect;
+    TwinkleEffectConfig twinkleEffect;
 };

@@ -86,6 +86,57 @@ class SolidHSVScreen : public HSVScreen {
 SolidHSVScreen solidHSVScreen;
 
 
+class TwinkleDelaySelector : public ValueScreen {
+    public:
+        TwinkleDelaySelector() : ValueScreen(1, 1000, "Delay", 1) {}
+        ~TwinkleDelaySelector() {}
+
+        void onValueChanged(int value) {
+            getConfig()->twinkleEffect.delay = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->twinkleEffect.delay);
+        }
+
+        void onSave() {
+            saveConfig();
+        }
+};
+TwinkleDelaySelector twinkleDelaySelector;
+
+class TwinkleFractionSelector : public ValueScreen {
+    public:
+        TwinkleFractionSelector() : ValueScreen(1, 20, "Fraction", 1) {}
+        ~TwinkleFractionSelector() {}
+
+        void onValueChanged(int value) {
+            getConfig()->twinkleEffect.fraction = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->twinkleEffect.fraction);
+        }
+
+        void onSave() {
+            saveConfig();
+        }
+};
+TwinkleFractionSelector twinkleFractionSelector;
+
+class TwinkleConfigScreen : public MenuScreen {
+    public:
+        TwinkleConfigScreen() {
+            this->addMenuEntry("Delay", &twinkleDelaySelector);
+            this->addMenuEntry("Fraction", &twinkleFractionSelector);
+        }
+        ~TwinkleConfigScreen() {}
+
+        int onClick(int entryIndex) { return -1; }
+};
+TwinkleConfigScreen twinkleConfigScreen;
+
+
 class MainMenuState : public MenuScreen {
     public:
         MainMenuState() { }
@@ -98,6 +149,8 @@ class MainMenuState : public MenuScreen {
                         return rainbowConfigScreen.index;
                     case 1:
                         return solidHSVScreen.index;
+                    case 2:
+                        return twinkleConfigScreen.index;
                 };
             }
 
