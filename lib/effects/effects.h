@@ -9,6 +9,7 @@
 #include "rainbow.h"
 #include "solid.h"
 #include "twinkle.h"
+#include "marquee.h"
 
 LinkedList<Effect*> effects;
 
@@ -35,6 +36,7 @@ void effectsSetup() {
     effects.add(new RainbowEffect());
     effects.add(new SolidEffect());
     effects.add(new TwinkleEffect());
+    effects.add(new MarqueeEffect());
 
     setEffect(getConfig()->currentEffect);
 }

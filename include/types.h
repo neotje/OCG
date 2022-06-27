@@ -53,10 +53,16 @@ struct TwinkleEffectConfig {
     uint8_t fraction;
 };
 
+struct MarqueeEffectConfig {
+    uint32_t delay;
+    uint8_t blackSpacing;
+};
+
 struct Config {
     uint8_t brightness;
     CHSV color;
     uint8_t currentEffect;
     RainbowEffectConfig rainbowEffect;
     TwinkleEffectConfig twinkleEffect;
+    MarqueeEffectConfig marqueeEffect;
 };

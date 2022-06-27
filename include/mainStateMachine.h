@@ -29,6 +29,9 @@ void mainStateMachineSetup() {
     mainStateMachine.addState(&twinkleConfigScreen);
     mainStateMachine.addState(&twinkleDelaySelector);
     mainStateMachine.addState(&twinkleFractionSelector);
+    mainStateMachine.addState(&marqueeConfigScreen);
+    mainStateMachine.addState(&marqueeDelaySelector);
+    mainStateMachine.addState(&marqueeBlackSpacingSelector);
 
     mainMenuState.addMenuEntry("Effects", &effectSelectState);
     mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
@@ -47,6 +50,10 @@ void mainStateMachineSetup() {
     twinkleConfigScreen.addTransition(&longPressTransition, &mainMenuState);
     twinkleDelaySelector.addTransition(&oneClickTransition, &twinkleConfigScreen);
     twinkleFractionSelector.addTransition(&oneClickTransition, &twinkleConfigScreen);
+
+    marqueeConfigScreen.addTransition(&longPressTransition, &mainMenuState);
+    marqueeDelaySelector.addTransition(&oneClickTransition, &marqueeConfigScreen);
+    marqueeBlackSpacingSelector.addTransition(&oneClickTransition, &marqueeConfigScreen);
 }
 
 void mainStateMachineLoop() {

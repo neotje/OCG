@@ -137,6 +137,57 @@ class TwinkleConfigScreen : public MenuScreen {
 TwinkleConfigScreen twinkleConfigScreen;
 
 
+class MarqueeDelaySelector : public ValueScreen {
+    public:
+        MarqueeDelaySelector() : ValueScreen(1, 500, "Delay", 1) {}
+        ~MarqueeDelaySelector() {}
+
+        void onValueChanged(int value) {
+            getConfig()->marqueeEffect.delay = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->marqueeEffect.delay);
+        }
+
+        void onSave() {
+            saveConfig();
+        }
+};
+MarqueeDelaySelector marqueeDelaySelector;
+
+class MarqueeBlackSpacingSelector : public ValueScreen {
+    public:
+        MarqueeBlackSpacingSelector() : ValueScreen(3, 20, "Black space", 1) {}
+        ~MarqueeBlackSpacingSelector() {}
+
+        void onValueChanged(int value) {
+            getConfig()->marqueeEffect.blackSpacing = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->marqueeEffect.blackSpacing);
+        }
+
+        void onSave() {
+            saveConfig();
+        }
+};
+MarqueeBlackSpacingSelector marqueeBlackSpacingSelector;
+
+class MarqueeConfigScreen : public MenuScreen {
+    public:
+        MarqueeConfigScreen() {
+            this->addMenuEntry("Delay", &marqueeDelaySelector);
+            this->addMenuEntry("Black Spacing", &marqueeBlackSpacingSelector);
+        }
+        ~MarqueeConfigScreen() {}
+
+        int onClick(int entryIndex) { return -1; }
+};
+MarqueeConfigScreen marqueeConfigScreen;
+
+
 class MainMenuState : public MenuScreen {
     public:
         MainMenuState() { }
@@ -151,6 +202,8 @@ class MainMenuState : public MenuScreen {
                         return solidHSVScreen.index;
                     case 2:
                         return twinkleConfigScreen.index;
+                    case 3:
+                        return marqueeConfigScreen.index;
                 };
             }
 

@@ -17,6 +17,10 @@ Config config = {
     .twinkleEffect = {
         .delay = 200,
         .fraction = 4
+    },
+    .marqueeEffect = {
+        .delay = 100,
+        .blackSpacing = 5
     }
 };
 
@@ -68,6 +72,10 @@ bool resetConfig() {
         .twinkleEffect = {
             .delay = 200,
             .fraction = 4
+        },
+        .marqueeEffect = {
+            .delay = 100,
+            .blackSpacing = 5
         }
     };
 

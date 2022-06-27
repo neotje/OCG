@@ -43,6 +43,7 @@ class TwinkleEffect : public Effect {
                 this->ledsCount += getLedsMapLength(getLedMap(i));
             }
             
+            this->lastUpdate = millis();
         }
         void run() {
             if (millis() - this->lastUpdate > getConfig()->twinkleEffect.delay) {
