@@ -43,10 +43,10 @@ void setup() {
     mainStateMachineSetup();
     effectsSetup();
 
+    timingSetup();
+    
     lcdSetColor(CRGB::White);
     getLcd()->clear();
-
-    timingSetup();
 }
 
 void loop() {
