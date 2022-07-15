@@ -12,19 +12,21 @@ Adafruit_SPIFlash flash(&flashTransport);
 
 FatFileSystem fs;
 
-void flashSetup() {
+bool flashSetup() {
     if (!flash.begin()) {
         Serial.println("Could initialize flash");
-        return;
+        return false;
     }
 
     if (!fs.begin(&flash)) {
         Serial.println("Could not mount flash");
-        return;
+        return false;
     }
 
     Serial.print("JEDEC ID: 0x"); Serial.println(flash.getJEDECID(), HEX);
     Serial.print("Flash size: "); Serial.print(flash.size() / 1024); Serial.println(" KB");
     Serial.print("Fat type: "); Serial.println(fs.fatType());
     Serial.print("File count: "); fs.ls(LS_R | LS_SIZE);
+
+    return true;
 }

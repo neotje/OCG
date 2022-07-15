@@ -6,8 +6,8 @@
 #include "leds.h"
 
 LedMap LEDS_MAP[] = {
-    {0, 50, Right, true},
-    {50, 100, Left, false}
+    {0, 98, Right, true}
+    //,{50, 100, Left, false}
 };
 
 uint8_t getNumOfLedMaps() {
