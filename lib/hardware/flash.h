@@ -27,6 +27,7 @@ bool flashSetup() {
     Serial.print("Flash size: "); Serial.print(flash.size() / 1024); Serial.println(" KB");
     Serial.print("Fat type: "); Serial.println(fs.fatType());
     Serial.print("File count: "); fs.ls(LS_R | LS_SIZE);
+    Serial.println("");
 
     return true;
 }

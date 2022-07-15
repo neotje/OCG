@@ -18,20 +18,30 @@
 void setup() {
     Serial.begin(115200);
 
-    /* while (!Serial) {
-        delay(100);
-    } */
-
-    Serial.println("init");
-
     lcdSetup();
 
     // init message
     lcdSetColor(CRGB::Red);
     getLcd()->print("Initializing...");
+    Serial.println("init");
 
-    flashSetup();
-    configSetup();
+    /*while (!Serial) {
+        delay(100);
+    }*/
+
+    if (!flashSetup()) {
+        getLcd()->clear();
+        getLcd()->print("Storage failed!");
+        delay(3000);
+    }
+
+    if (!configSetup()) {
+        getLcd()->clear();
+        getLcd()->print("Config failed!");
+        getLcd()->setCursor(0, 1);
+        getLcd()->print("Create config...");
+        delay(3000);
+    }
 
     // hardware
     ledsSetup();

@@ -51,7 +51,7 @@ void StateMachine::run(){
   // Execute state logic and return transitioned
   // to state number. 
 
-  Serial.println(currentState);
+  //Serial.println(currentState);
   int next = stateList->get(this->currentState)->execute();
 
   if (this->currentState != next) {

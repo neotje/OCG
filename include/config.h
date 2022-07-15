@@ -35,26 +35,30 @@ bool loadConfig() {
         return false;
     }
 
-    configFile = fs.open(CONFIG_FILE, O_READ);
+    configFile = fs.open(CONFIG_FILE, FILE_READ);
 
     if (!configFile) {
         return false;
     }
 
     configFile.read((uint8_t *)&config, sizeof(config));
+    configFile.flush();
     configFile.close();
 
     return true;
 }
 
 bool saveConfig() {
-    configFile = fs.open(CONFIG_FILE, O_WRITE);
+    configFile = fs.open(CONFIG_FILE, FILE_WRITE);
 
     if (!configFile) {
+        Serial.println("Failed to save config!");
+        Serial.println(configFile.getError());
         return false;
     }
 
     configFile.write((uint8_t *)&config, sizeof(config));
+    configFile.flush();
     configFile.close();
 
     return true;
@@ -82,11 +86,14 @@ bool resetConfig() {
     return saveConfig();
 }
 
-void configSetup() {  
+bool configSetup() {  
     if (!loadConfig()) {
         Serial.println("Could not find config");
         saveConfig();
+        return false;
     }
     Serial.println("Config loaded");
     Serial.println("brightness: " + String(config.brightness));
+
+    return true;
 }
