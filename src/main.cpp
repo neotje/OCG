@@ -69,4 +69,10 @@ void loop() {
 
     timingLoop();
     effectsLoop();
+
+    if(isButtonDown(0) && millis() - getButtonPressStart(0) > LONG_PRESS_TIME) {
+        lcdSetColor(CRGB::Red);
+    } else {
+        lcdSetColor(CRGB::White);
+    }
 }
