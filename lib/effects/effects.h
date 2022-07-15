@@ -10,6 +10,7 @@
 #include "solid.h"
 #include "twinkle.h"
 #include "marquee.h"
+#include "colorflash.h"
 
 LinkedList<Effect*> effects;
 
@@ -37,6 +38,10 @@ void effectsSetup() {
     effects.add(new SolidEffect());
     effects.add(new TwinkleEffect());
     effects.add(new MarqueeEffect());
+    effects.add(new FlashEffect());
+
+    Serial.print("Current effect: ");
+    Serial.println(getConfig()->currentEffect);
 
     setEffect(getConfig()->currentEffect);
 }

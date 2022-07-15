@@ -21,6 +21,14 @@ Config config = {
     .marqueeEffect = {
         .delay = 100,
         .blackSpacing = 5
+    },
+    .flashEffect = {
+        .delay = 500,
+        .colors = {
+            CRGB(255, 0, 0),
+            CRGB(0, 255, 0),
+            CRGB(0, 0, 255)
+        }
     }
 };
 
@@ -41,7 +49,7 @@ bool loadConfig() {
         return false;
     }
 
-    configFile.read((uint8_t *)&config, sizeof(config));
+    configFile.read((byte *)&config, sizeof(config));
     configFile.flush();
     configFile.close();
 
@@ -49,7 +57,9 @@ bool loadConfig() {
 }
 
 bool saveConfig() {
-    configFile = fs.open(CONFIG_FILE, FILE_WRITE);
+    configFile = fs.open(CONFIG_FILE, O_RDWR | O_CREAT);
+
+    Serial.println("Saving config...");
 
     if (!configFile) {
         Serial.println("Failed to save config!");
@@ -57,31 +67,48 @@ bool saveConfig() {
         return false;
     }
 
-    configFile.write((uint8_t *)&config, sizeof(config));
+    Serial.println(configFile.write((byte *)&config, sizeof(config)));
+
     configFile.flush();
-    configFile.close();
+    
+    if(!configFile.close()) {
+        Serial.println("Failed to close config!");
+        return false;
+    }
 
     return true;
 }
 
 bool resetConfig() {
+    Serial.println("Resetting config...");
+
+    fs.remove(CONFIG_FILE);
+
     config = {
-        .brightness = 255,
-        .color = CHSV(0, 0, 255),
-        .currentEffect = 0,
-        .rainbowEffect = {
-            .deltaHue = 5,
-            .speed = 100.0
-        },
-        .twinkleEffect = {
-            .delay = 200,
-            .fraction = 4
-        },
-        .marqueeEffect = {
-            .delay = 100,
-            .blackSpacing = 5
+    .brightness = 255,
+    .color = CHSV(0, 0, 255),
+    .currentEffect = 0,
+    .rainbowEffect = {
+        .deltaHue = 5,
+        .speed = 100.0
+    },
+    .twinkleEffect = {
+        .delay = 200,
+        .fraction = 4
+    },
+    .marqueeEffect = {
+        .delay = 100,
+        .blackSpacing = 5
+    },
+    .flashEffect = {
+        .delay = 500,
+        .colors = {
+            CRGB(255, 0, 0),
+            CRGB(0, 255, 0),
+            CRGB(0, 0, 255)
         }
-    };
+    }
+};
 
     return saveConfig();
 }

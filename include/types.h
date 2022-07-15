@@ -29,6 +29,8 @@ struct Button {
     bool lastState;
     bool isDown;
     bool isPressed;
+    bool isLongPress;
+    bool lastLongPress;
 };
 
 struct AccelGyroData {
@@ -58,6 +60,11 @@ struct MarqueeEffectConfig {
     uint8_t blackSpacing;
 };
 
+struct FlashEffectConfig {
+    uint32_t delay;
+    CRGB colors[3];
+};
+
 struct Config {
     uint8_t brightness;
     CHSV color;
@@ -65,4 +72,5 @@ struct Config {
     RainbowEffectConfig rainbowEffect;
     TwinkleEffectConfig twinkleEffect;
     MarqueeEffectConfig marqueeEffect;
+    FlashEffectConfig flashEffect;
 };

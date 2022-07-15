@@ -32,6 +32,11 @@ void mainStateMachineSetup() {
     mainStateMachine.addState(&marqueeConfigScreen);
     mainStateMachine.addState(&marqueeDelaySelector);
     mainStateMachine.addState(&marqueeBlackSpacingSelector);
+    mainStateMachine.addState(&flashConfigScreen);
+    mainStateMachine.addState(&flashDelaySelector);
+    mainStateMachine.addState(&flashColor0Selector);
+    mainStateMachine.addState(&flashColor1Selector);
+    mainStateMachine.addState(&flashColor2Selector);
 
     mainMenuState.addMenuEntry("Effects", &effectSelectState);
     mainMenuState.addMenuEntry("Brightness", &brightnessSelectState);
@@ -54,6 +59,12 @@ void mainStateMachineSetup() {
     marqueeConfigScreen.addTransition(&longPressTransition, &mainMenuState);
     marqueeDelaySelector.addTransition(&oneClickTransition, &marqueeConfigScreen);
     marqueeBlackSpacingSelector.addTransition(&oneClickTransition, &marqueeConfigScreen);
+
+    flashConfigScreen.addTransition(&longPressTransition, &mainMenuState);
+    flashDelaySelector.addTransition(&oneClickTransition, &flashConfigScreen);
+    flashColor0Selector.addTransition(&longPressTransition, &flashConfigScreen);
+    flashColor1Selector.addTransition(&longPressTransition, &flashConfigScreen);
+    flashColor2Selector.addTransition(&longPressTransition, &flashConfigScreen);
 }
 
 void mainStateMachineLoop() {

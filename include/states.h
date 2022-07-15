@@ -7,6 +7,7 @@
 #include "config.h"
 #include "valueScreen.h"
 #include "hsvScreen.h"
+#include "rgbScreen.h"
 #include "menuScreen.h"
 #include "effects.h"
 
@@ -188,6 +189,65 @@ class MarqueeConfigScreen : public MenuScreen {
 MarqueeConfigScreen marqueeConfigScreen;
 
 
+class FlashDelaySelector : public ValueScreen {
+    public:
+        FlashDelaySelector() : ValueScreen(50, 2000, "Delay", 50) {}
+        ~FlashDelaySelector() {}
+
+        void onValueChanged(int value) {
+            getConfig()->flashEffect.delay = value;
+        }
+
+        void onLoad() {
+            this->setValue(getConfig()->flashEffect.delay);
+        }
+
+        void onSave() {
+            saveConfig();
+        }
+};
+FlashDelaySelector flashDelaySelector;
+
+class FlashColorSelector : public RGBScreen {
+    private:
+        int index;
+    public:
+        FlashColorSelector(int index) {
+            this->index = index;
+        }
+        ~FlashColorSelector() {}
+
+        void onLoad() {
+            setColor(getConfig()->flashEffect.colors[index]);
+        }
+
+        void onSave(CRGB value) {
+            getConfig()->flashEffect.colors[index] = value;
+            saveConfig();
+        }
+
+        void onColorChange(CRGB value) {
+            getConfig()->flashEffect.colors[index] = value;
+        }
+};
+FlashColorSelector flashColor0Selector(0);
+FlashColorSelector flashColor1Selector(1);
+FlashColorSelector flashColor2Selector(2);
+
+class FlashConfigScreen : public MenuScreen {
+    public:
+        FlashConfigScreen() {
+            this->addMenuEntry("Delay", &flashDelaySelector);
+            this->addMenuEntry("Color 0", &flashColor0Selector);
+            this->addMenuEntry("Color 1", &flashColor1Selector);
+            this->addMenuEntry("Color 2", &flashColor2Selector);
+        }
+        ~FlashConfigScreen() {}
+
+        int onClick(int entryIndex) { return -1; }
+};
+FlashConfigScreen flashConfigScreen;
+
 class MainMenuState : public MenuScreen {
     public:
         MainMenuState() { }
@@ -204,6 +264,8 @@ class MainMenuState : public MenuScreen {
                         return twinkleConfigScreen.index;
                     case 3:
                         return marqueeConfigScreen.index;
+                    case 4:
+                        return flashConfigScreen.index;
                 };
             }
 
@@ -219,7 +281,7 @@ class EffectSelectState : public MenuScreen {
 
         int onClick(int entryIndex) {
             setEffect(entryIndex);
-            return -1;
+            return mainMenuState.index;
         }
 
         void enter() {
