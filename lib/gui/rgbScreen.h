@@ -5,9 +5,9 @@
 #include <LinkedList.h>
 #include <FastLED.h>
 
+#include "hardware.h"
 #include "lcd.h"
 #include "rotary.h"
-#include "buttons.h"
 
 class RGBScreen : public State {
     private:
@@ -100,7 +100,7 @@ class RGBScreen : public State {
                     lcdSetColor(this->color);
                 }
 
-                if (isButtonPressed(0)) {
+                if (rotaryButton->isPressed()) {
                     this->editing = false;
                     this->onSave(this->color);
                     drawTop();
@@ -119,7 +119,7 @@ class RGBScreen : public State {
                     drawTop();
                 }
 
-                if (isButtonPressed(0)) {
+                if (rotaryButton->isPressed()) {
                     this->editing = true;
                     drawTop();
                 }

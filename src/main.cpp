@@ -6,7 +6,6 @@
 #include "ledsMap.h"
 #include "lcd.h"
 #include "rotary.h"
-#include "buttons.h"
 #include "flash.h"
 #include "accelGyro.h"
 
@@ -14,6 +13,8 @@
 #include "effects.h"
 
 #include "mainStateMachine.h"
+
+#include "hardware.h"
 
 void setup() {
     Serial.begin(115200);
@@ -23,7 +24,9 @@ void setup() {
     // init message
     lcdSetColor(CRGB::Red);
     getLcd()->print("Initializing...");
-    Serial.println("init");
+    Serial.println("init");    
+
+    hardwareSetup();
 
     /*while (!Serial) {
         delay(100);
@@ -46,8 +49,6 @@ void setup() {
     // hardware
     ledsSetup();
     rotarySetup();
-    buttonsSetup();
-    //accelGyroSetup();
     
     // state machines
     mainStateMachineSetup();
@@ -60,19 +61,13 @@ void setup() {
 }
 
 void loop() {
+    hardwareLoop();
+
     ledsLoop();
     rotaryLoop();
-    buttonsLoop();
-    //accelGyroLoop();
 
     mainStateMachineLoop();
 
     timingLoop();
     effectsLoop();
-
-    if(isButtonDown(0) && millis() - getButtonPressStart(0) > LONG_PRESS_TIME) {
-        lcdSetColor(CRGB::Red);
-    } else {
-        lcdSetColor(CRGB::White);
-    }
 }

@@ -5,9 +5,9 @@
 #include <LinkedList.h>
 #include <FastLED.h>
 
+#include "hardware.h"
 #include "lcd.h"
 #include "rotary.h"
-#include "buttons.h"
 
 class HSVScreen : public State {
     private:
@@ -101,7 +101,7 @@ class HSVScreen : public State {
                     lcdSetColor(lcdColor.setHSV(this->color.hue, this->color.sat, constrain(this->color.val, 60, 255)));
                 }
 
-                if (isButtonPressed(0)) {
+                if (rotaryButton->isPressed()) {
                     this->editing = false;
                     this->onSave(this->color);
                     drawTop();
@@ -120,7 +120,7 @@ class HSVScreen : public State {
                     drawTop();
                 }
 
-                if (isButtonPressed(0)) {
+                if (rotaryButton->isPressed()) {
                     this->editing = true;
                     drawTop();
                 }

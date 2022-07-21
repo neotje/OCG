@@ -5,17 +5,16 @@
 #include <StateMachine.h>
 
 #include "leds.h"
-#include "buttons.h"
 #include "states.h"
-
+#include "hardware.h"
 
 /* ------------ Transitions ------------- */
 bool oneClickTransition() {
-    return isButtonPressed(0);
+    return rotaryButton->isPressed();
 }
 
 bool longPressTransition() {
-    return isButtonLongPressed(0);
+    return rotaryButton->isLongPressed();
 }
 
 void mainStateMachineSetup() {

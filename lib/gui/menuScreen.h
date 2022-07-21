@@ -6,7 +6,7 @@
 
 #include "lcd.h"
 #include "rotary.h"
-#include "buttons.h"
+#include "hardware.h"
 
 struct MenuEntry {
     const char* name;
@@ -82,7 +82,7 @@ class MenuScreen : public State {
 
             int result = -1;
 
-            if (isButtonPressed(0)) {
+            if (rotaryButton->isPressed()) {
                 result = this->onClick(selectedEntry);
 
                 if (result != -1) {
