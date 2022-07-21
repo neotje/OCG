@@ -3,7 +3,6 @@
 #include <Arduino.h>
 #include <StateMachine.h>
 
-#include "lcd.h"
 #include "config.h"
 #include "valueScreen.h"
 #include "hsvScreen.h"

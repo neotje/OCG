@@ -4,7 +4,6 @@
 #include <StateMachine.h>
 #include <LinkedList.h>
 
-#include "lcd.h"
 #include "hardware.h"
 
 class ValueScreen : public State {
@@ -39,25 +38,25 @@ class ValueScreen : public State {
         virtual void onSave() = 0;
 
         void draw() {
-            getLcd()->setCursor(strlen(this->name) + 2, 0);
+            lcdScreen->setCursor(strlen(this->name) + 2, 0);
 
-            size_t valueLength = getLcd()->print(this->value);
+            size_t valueLength = lcdScreen->print(this->value);
 
             for (size_t i = 0; i < maxValueLength-valueLength; i++)
             {
-                getLcd()->print(' ');
+                lcdScreen->print(' ');
             }
 
-            getLcd()->setCursor(0, 1);
-            lcdDrawBar((float)this->value / (this->maxValue - this->minValue));
+            lcdScreen->setCursor(0, 1);
+            lcdScreen->drawBar((float)this->value / (this->maxValue - this->minValue));
         }
 
         void enter() {
             this->onLoad();
 
-            getLcd()->command(LCD_CLEARDISPLAY);
-            getLcd()->print(this->name);
-            getLcd()->print(": ");
+            lcdScreen->command(LCD_CLEARDISPLAY);
+            lcdScreen->print(this->name);
+            lcdScreen->print(": ");
 
             this->draw();
         }

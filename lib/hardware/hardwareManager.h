@@ -6,6 +6,7 @@
 #include "driverBase.h"
 #include "drivers/buttonDriver.h"
 #include "drivers/rotaryDriver.h"
+#include "drivers/lcd1602RgbDriver.h"
 
 class HardwareManager {
     private:

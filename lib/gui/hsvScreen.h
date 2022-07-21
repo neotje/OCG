@@ -6,7 +6,6 @@
 #include <FastLED.h>
 
 #include "hardware.h"
-#include "lcd.h"
 
 class HSVScreen : public State {
     private:
@@ -35,7 +34,7 @@ class HSVScreen : public State {
         virtual void onSave(CHSV color) = 0;
 
         void drawTop() {
-            getLcd()->setCursor(1, 0);
+            lcdScreen->setCursor(1, 0);
 
             char selectedChar = '-'; 
             if (this->editing) {
@@ -44,16 +43,16 @@ class HSVScreen : public State {
 
             for (size_t i = 0; i < 3; i++) {
                 if(this->currentSelected == i) {
-                    getLcd()->print(selectedChar);
-                    getLcd()->print(this->components[i]);
-                    getLcd()->print(selectedChar);
+                    lcdScreen->print(selectedChar);
+                    lcdScreen->print(this->components[i]);
+                    lcdScreen->print(selectedChar);
                 } else {
-                    getLcd()->print(" ");
-                    getLcd()->print(this->components[i]);
-                    getLcd()->print(" ");
+                    lcdScreen->print(" ");
+                    lcdScreen->print(this->components[i]);
+                    lcdScreen->print(" ");
                 }
 
-                getLcd()->print("  ");
+                lcdScreen->print("  ");
             }
             
         }
@@ -62,13 +61,13 @@ class HSVScreen : public State {
             int x = 2;
 
             for (size_t i = 0; i < 3; i++) {
-                getLcd()->setCursor(x, 1);
+                lcdScreen->setCursor(x, 1);
 
-                size_t valueLength = getLcd()->print(this->color[i]);
+                size_t valueLength = lcdScreen->print(this->color[i]);
 
                 for (size_t i = 0; i < 3-valueLength; i++)
                 {
-                    getLcd()->print(' ');
+                    lcdScreen->print(' ');
                 }
 
                 x += 5;
@@ -82,7 +81,7 @@ class HSVScreen : public State {
 
             this->onLoad();
 
-            getLcd()->clear();
+            lcdScreen->clear();
 
             drawTop();
             drawBottom();
@@ -97,14 +96,14 @@ class HSVScreen : public State {
 
                     drawBottom();
 
-                    lcdSetColor(lcdColor.setHSV(this->color.hue, this->color.sat, constrain(this->color.val, 60, 255)));
+                    lcdScreen->setRGB(lcdColor.setHSV(this->color.hue, this->color.sat, constrain(this->color.val, 60, 255)));
                 }
 
                 if (rotaryButton->isPressed()) {
                     this->editing = false;
                     this->onSave(this->color);
                     drawTop();
-                    lcdSetColor(CRGB::Gray);
+                    lcdScreen->setRGB(CRGB::Gray);
                 }
             } else {
                 if (rotaryEncoder->getDeltaPosition() != 0) {

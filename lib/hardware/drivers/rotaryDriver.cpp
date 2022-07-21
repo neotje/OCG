@@ -2,6 +2,8 @@
 
 RotaryDriver::RotaryDriver(String name, int pin1, int pin2): Encoder(pin1, pin2) {
     this->name = name;
+
+    write(0);
 }
 
 void RotaryDriver::loop() {

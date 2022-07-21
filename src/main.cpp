@@ -4,7 +4,6 @@
 #include "config.h"
 #include "leds.h" 
 #include "ledsMap.h"
-#include "lcd.h"
 #include "flash.h"
 #include "accelGyro.h"
 
@@ -18,13 +17,6 @@
 void setup() {
     Serial.begin(115200);
 
-    lcdSetup();
-
-    // init message
-    lcdSetColor(CRGB::Red);
-    getLcd()->print("Initializing...");
-    Serial.println("init");    
-
     hardwareSetup();
 
     /*while (!Serial) {
@@ -32,16 +24,16 @@ void setup() {
     }*/
 
     if (!flashSetup()) {
-        getLcd()->clear();
-        getLcd()->print("Storage failed!");
+        lcdScreen->clear();
+        lcdScreen->print("Storage failed!");
         delay(3000);
     }
 
     if (!configSetup()) {
-        getLcd()->clear();
-        getLcd()->print("Config failed!");
-        getLcd()->setCursor(0, 1);
-        getLcd()->print("Create config...");
+        lcdScreen->clear();
+        lcdScreen->print("Config failed!");
+        lcdScreen->setCursor(0, 1);
+        lcdScreen->print("Create config...");
         delay(3000);
     }
 
@@ -54,8 +46,8 @@ void setup() {
 
     timingSetup();
     
-    lcdSetColor(CRGB::White);
-    getLcd()->clear();
+    lcdScreen->setRGB(CRGB::White);
+    lcdScreen->clear();
 }
 
 void loop() {

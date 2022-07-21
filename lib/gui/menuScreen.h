@@ -4,7 +4,6 @@
 #include <StateMachine.h>
 #include <LinkedList.h>
 
-#include "lcd.h"
 #include "hardware.h"
 
 struct MenuEntry {
@@ -18,18 +17,18 @@ class MenuScreen : public State {
         int selectedEntry;
 
         void draw() {
-            getLcd()->command(LCD_CLEARDISPLAY);
+            lcdScreen->command(LCD_CLEARDISPLAY);
 
-            getLcd()->print(this->entries->get(selectedEntry)->name);
+            lcdScreen->print(this->entries->get(selectedEntry)->name);
 
             if (this->selectedEntry != 0) {
-                getLcd()->setCursor(0, 1);
-                getLcd()->print("<");
+                lcdScreen->setCursor(0, 1);
+                lcdScreen->print("<");
             }
 
             if (this->selectedEntry != entries->size() - 1) {
-                getLcd()->setCursor(15, 1);
-                getLcd()->print(">");
+                lcdScreen->setCursor(15, 1);
+                lcdScreen->print(">");
             }
         }
     

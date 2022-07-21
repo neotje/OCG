@@ -1,16 +1,4 @@
-#pragma once
-
-#include <Arduino.h>
-#include <DFRobot_RGBLCD1602.h>
-#include <FastLED.h>
-
-DFRobot_RGBLCD1602 lcd(16, 2);
-
-const byte ONE_FITH = 0;
-const byte TWO_FITH = 1;
-const byte THREE_FITH = 2;
-const byte FOUR_FITH = 3;
-const char FULL = (char)0xFF;
+#include "lcd1602RgbDriver.h"
 
 // Custom characters
 byte oneFifth[8] = {
@@ -57,48 +45,53 @@ byte fourFifth[8] = {
     B11110
 };
 
-void lcdSetup() {
-    lcd.init();
+Lcd1602RgbDriver::Lcd1602RgbDriver(String name, TwoWire *wire, uint8_t lcdAddr, uint8_t RGBAddr) : DFRobot_RGBLCD1602(16, 2, wire, lcdAddr, RGBAddr) {
+    this->name = name;
 
-    lcd.customSymbol(ONE_FITH, oneFifth);
-    lcd.customSymbol(TWO_FITH, twoFifth);
-    lcd.customSymbol(THREE_FITH, threeFifth);
-    lcd.customSymbol(FOUR_FITH, fourFifth);
+    init();
+
+    setRGB(CRGB::Red);
+    print("Initializing...");
+
+    // Set custom characters
+    customSymbol(ONE_FITH, oneFifth);
+    customSymbol(TWO_FITH, twoFifth);
+    customSymbol(THREE_FITH, threeFifth);
+    customSymbol(FOUR_FITH, fourFifth);
 }
 
-void lcdSetColor(const CRGB &color) {
-    lcd.setRGB(color.r, color.g, color.b);
+void Lcd1602RgbDriver::loop() {
 }
 
-void lcdDrawBar(float value) {
+void Lcd1602RgbDriver::setRGB(const CRGB &color) {
+    DFRobot_RGBLCD1602::setRGB(color.r, color.g, color.b);
+}
+
+void Lcd1602RgbDriver::drawBar(float value) {
     byte cols = value * 80;
 
     for (byte i = 0; i < cols/5; i++)
     {
-        lcd.print(FULL);
+        print(FULL);
     }
 
     switch (cols % 5) {
         case 1:
-            lcd.write(ONE_FITH);
+            write(ONE_FITH);
             break;
         case 2:
-            lcd.write(TWO_FITH);
+            write(TWO_FITH);
             break;
         case 3:
-            lcd.write(THREE_FITH);
+            write(THREE_FITH);
             break;
         case 4:
-            lcd.write(FOUR_FITH);
+            write(FOUR_FITH);
             break;
     };
 
     for (byte i = cols/5; i < 80/5; i++)
     {
-        lcd.print(' ');
+        print(' ');
     }
-}
-
-DFRobot_RGBLCD1602* getLcd() {
-    return &lcd;
 }
