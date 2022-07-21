@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lcd.h"
-#include "rotary.h"
+#include "hardware.h"
 
 int currentValue = 0;
 int maxValue = 255;
@@ -37,12 +37,12 @@ void numberSelectorSetup(char *nLabel, int nCurrentValue, int nMinValue, int nMa
 }
 
 void numberSelectorLoop() {
-    if (getRotaryDirection() != None && millis() - lastNumberChange > NUMBER_CHANGE_TIMEOUT) {
+    if (rotaryEncoder->getDeltaPosition() != 0 && millis() - lastNumberChange > NUMBER_CHANGE_TIMEOUT) {
         lastNumberChange = millis();
 
-        if (getRotaryDelta() > 0) {
+        if (rotaryEncoder->getDeltaPosition() > 0) {
             currentValue += stepSize;
-        } else if (getRotaryDelta() < 0) {
+        } else if (rotaryEncoder->getDeltaPosition() < 0) {
             currentValue -= stepSize;
         }
 

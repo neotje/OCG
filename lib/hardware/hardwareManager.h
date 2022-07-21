@@ -5,6 +5,7 @@
 
 #include "driverBase.h"
 #include "drivers/buttonDriver.h"
+#include "drivers/rotaryDriver.h"
 
 class HardwareManager {
     private:

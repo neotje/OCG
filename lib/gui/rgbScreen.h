@@ -7,7 +7,6 @@
 
 #include "hardware.h"
 #include "lcd.h"
-#include "rotary.h"
 
 class RGBScreen : public State {
     private:
@@ -90,8 +89,8 @@ class RGBScreen : public State {
 
         int loop() {
             if (this->editing) {
-                if (getRotaryDirection() != None) {
-                    this->color[this->currentSelected] += getRotaryDelta();
+                if (rotaryEncoder->getDeltaPosition() != 0) {
+                    this->color[this->currentSelected] += rotaryEncoder->getDeltaPosition();
 
                     this->onColorChange(this->color);
 
@@ -107,8 +106,8 @@ class RGBScreen : public State {
                     lcdSetColor(CRGB::Gray);
                 }
             } else {
-                if (getRotaryDirection() != None) {
-                    this->currentSelected += getRotaryDelta();
+                if (rotaryEncoder->getDeltaPosition() != 0) {
+                    this->currentSelected += rotaryEncoder->getDeltaPosition();
 
                     if (this->currentSelected < 0) {
                         this->currentSelected = 2;

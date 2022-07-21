@@ -5,7 +5,6 @@
 #include "leds.h" 
 #include "ledsMap.h"
 #include "lcd.h"
-#include "rotary.h"
 #include "flash.h"
 #include "accelGyro.h"
 
@@ -48,7 +47,6 @@ void setup() {
 
     // hardware
     ledsSetup();
-    rotarySetup();
     
     // state machines
     mainStateMachineSetup();
@@ -64,7 +62,6 @@ void loop() {
     hardwareLoop();
 
     ledsLoop();
-    rotaryLoop();
 
     mainStateMachineLoop();
 

@@ -16,6 +16,7 @@ DriverBase* HardwareManager::getByName(const char* name) {
 bool HardwareManager::addHardware(DriverBase *hardware) {
     if (getByName(hardware->getName().c_str()) == nullptr) {
         hardwareList->add(hardware);
+        hardware->setHardwareManager(this);
         return true;
     }
     return false;

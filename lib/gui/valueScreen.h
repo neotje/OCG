@@ -5,7 +5,7 @@
 #include <LinkedList.h>
 
 #include "lcd.h"
-#include "rotary.h"
+#include "hardware.h"
 
 class ValueScreen : public State {
     private:
@@ -63,8 +63,8 @@ class ValueScreen : public State {
         }
 
         int loop() {
-            if (getRotaryDirection() != None) {
-                this->value += (getRotaryDelta() * abs(getRotaryDelta())) * stepSize
+            if (rotaryEncoder->getDeltaPosition() != 0) {
+                this->value += (rotaryEncoder->getDeltaPosition() * abs(rotaryEncoder->getDeltaPosition())) * stepSize
 ;
                 this->value = constrain(this->value, this->minValue, this->maxValue);
 

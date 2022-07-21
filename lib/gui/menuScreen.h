@@ -5,7 +5,6 @@
 #include <LinkedList.h>
 
 #include "lcd.h"
-#include "rotary.h"
 #include "hardware.h"
 
 struct MenuEntry {
@@ -72,9 +71,9 @@ class MenuScreen : public State {
         }
 
         int loop() {
-            if (getRotaryDirection() != None) {
+            if (rotaryEncoder->getDeltaPosition() != 0) {
 
-                selectedEntry += getRotaryDelta();
+                selectedEntry += rotaryEncoder->getDeltaPosition();
                 selectedEntry = constrain(selectedEntry, 0, this->entries->size() - 1);
 
                 this->draw();
