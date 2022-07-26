@@ -10,17 +10,10 @@ class DriverBase {
         DriverBase() {
             this->hardwareManager = nullptr;
         }
-        DriverBase(HardwareManager* hardwareManager) {
-            this->hardwareManager = hardwareManager;
-        }
         ~DriverBase() {}
 
-        void setHardwareManager(HardwareManager* hardwareManager) {
-            this->hardwareManager = hardwareManager;
-        }
-        HardwareManager* getHardwareManager() {
-            return this->hardwareManager;
-        }
+        virtual void setHardwareManager(HardwareManager* hardwareManager) final;
+        virtual HardwareManager* getHardwareManager() final;
 
         virtual String getName() = 0;
         virtual void loop() = 0;
