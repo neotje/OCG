@@ -38,8 +38,6 @@ void setup() {
         delay(3000);
     }
 
-    canSetup();
-
     // hardware
     ledsSetup();
     
@@ -48,6 +46,8 @@ void setup() {
     effectsSetup();
 
     timingSetup();
+
+    canSetup();
     
     lcdScreen->setRGB(CRGB::White);
     lcdScreen->clear();

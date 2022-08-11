@@ -7,6 +7,7 @@
 
 const uint16_t DEVICE_ID = 1000;
 const uint16_t CONFIG_CHANNEL = 1;
+const uint16_t EFFECT_CHANNEL = 2;
 
 NCDevice* ncDevice;
 SDOHost* configHost;
