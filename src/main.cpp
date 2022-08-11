@@ -6,6 +6,7 @@
 #include "ledsMap.h"
 #include "flash.h"
 #include "accelGyro.h"
+#include "can.h"
 
 #include "timing.h"
 #include "effects.h"
@@ -37,6 +38,8 @@ void setup() {
         delay(3000);
     }
 
+    canSetup();
+
     // hardware
     ledsSetup();
     
@@ -52,6 +55,7 @@ void setup() {
 
 void loop() {
     hardwareLoop();
+    canLoop();
 
     ledsLoop();
 
