@@ -38,6 +38,10 @@ Config * getConfig() {
     return &config;
 }
 
+uint8_t getConfigSize() {
+    return sizeof(config);
+}
+
 bool loadConfig() {
     if (!fs.exists(CONFIG_FILE)) {
         return false;

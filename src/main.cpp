@@ -6,6 +6,7 @@
 #include "ledsMap.h"
 #include "flash.h"
 #include "accelGyro.h"
+#include "can.h"
 
 #include "timing.h"
 #include "effects.h"
@@ -45,6 +46,8 @@ void setup() {
     effectsSetup();
 
     timingSetup();
+
+    canSetup();
     
     lcdScreen->setRGB(CRGB::White);
     lcdScreen->clear();
@@ -52,6 +55,7 @@ void setup() {
 
 void loop() {
     hardwareLoop();
+    canLoop();
 
     ledsLoop();
 
